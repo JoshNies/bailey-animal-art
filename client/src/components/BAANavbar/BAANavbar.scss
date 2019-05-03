@@ -1,0 +1,49 @@
+@import "~_variables.sass";
+@import "App.scss";
+
+.navbar-brand .navbar-item {
+  font-family: "Poppins" !important;
+  font-size: 1.75rem !important;
+  font-weight: bold !important;
+}
+
+.navbar-item {
+  font-family: "Poppins";
+  font-size: $size-5;
+  font-weight: bold !important;
+
+  transition: all $baa-navbar-item-transition-duration ease;
+  -webkit-transition: all $baa-navbar-item-transition-duration ease;
+  -moz-transition: all $baa-navbar-item-transition-duration ease;
+  -o-transition: all $baa-navbar-item-transition-duration ease;
+}
+
+.navbar-burger {
+  color: #fff;
+
+  span {
+    height: 3px;
+    width: 25px;
+    border-radius: 1.5px;
+  }
+
+  span:nth-child(1) {
+    top: calc(44% - 6px)
+  }
+
+  span:nth-child(2) {
+    top: calc(50% - 1px)
+  }
+
+  span:nth-child(3) {
+    top: calc(56% + 4px)
+  }
+}
+
+.navbar-burger.is-active span:nth-child(1) {
+  transform: translateY(10px) rotate(45deg)
+}
+
+.navbar-burger.is-active span:nth-child(3) {
+  transform: translateY(-9.5px) rotate(-45deg)
+}

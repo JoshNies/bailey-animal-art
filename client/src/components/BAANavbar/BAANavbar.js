@@ -20,9 +20,9 @@ class BAANavbar extends Component {
   render () {
     return (
       <Navbar
-        color="white"
         fixed="top"
         active={this.state.open}
+        transparent={false}
       >
         <Navbar.Brand>
           <Navbar.Item renderAs="a" href="#">Bailey Animal Art</Navbar.Item>
