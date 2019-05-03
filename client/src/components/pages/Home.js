@@ -5,27 +5,8 @@ import logo from './../../logo.svg'
 class Home extends Component {
   render () {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {/* Example link user react-router-dom */}
-          <Link to={'./about'}>
-            <button variant="raised">
-                Ooh next page please!
-            </button>
-          </Link>
-        </header>
+      <div>
+        <h1>Home page</h1>
       </div>
     )
   }
