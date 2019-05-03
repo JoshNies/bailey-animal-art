@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from 'react-bulma-components/lib/components/navbar'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faShoppingBag, faPalette } from '@fortawesome/free-solid-svg-icons'
 
 class BAANavbar extends Component {
   constructor(props) {
@@ -18,6 +20,8 @@ class BAANavbar extends Component {
   }
 
   render () {
+    const iconMargin = "0.5rem"
+
     return (
       <Navbar
         fixed="top"
@@ -33,9 +37,15 @@ class BAANavbar extends Component {
         </Navbar.Brand>
         <Navbar.Menu active={this.state.open.toString()}>
           <Navbar.Container position="end">
-            <Navbar.Item href="#">custom order</Navbar.Item>
-            <Navbar.Item href="#">shop</Navbar.Item>
-            <Navbar.Item href="#">about</Navbar.Item>
+            <Navbar.Item href="/custom-order">
+              <FontAwesomeIcon icon={faPalette} size="lg"/>
+              custom order
+            </Navbar.Item>
+            <Navbar.Item href="/shop">
+              <FontAwesomeIcon icon={faShoppingBag} size="lg"/>
+              shop
+              </Navbar.Item>
+            <Navbar.Item href="/about">about</Navbar.Item>
           </Navbar.Container>
         </Navbar.Menu>
       </Navbar>

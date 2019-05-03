@@ -17,6 +17,7 @@
 }
 
 .navbar-item {
+  @include noselect();
   transition: all $baa-navbar-item-transition-duration ease;
   -webkit-transition: all $baa-navbar-item-transition-duration ease;
   -moz-transition: all $baa-navbar-item-transition-duration ease;
@@ -51,4 +52,9 @@
 
 .navbar-burger.is-active span:nth-child(3) {
   transform: translateY(-9.5px) rotate(-45deg)
+}
+
+// FontAwesome margin
+.svg-inline--fa {
+  margin-right: 0.6rem;
 }
