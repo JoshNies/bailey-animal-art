@@ -29,7 +29,7 @@ class BAANavbar extends Component {
         transparent={false}
       >
         <Navbar.Brand>
-          <Navbar.Item renderAs="a" href="#">Bailey Animal Art</Navbar.Item>
+          <Navbar.Item renderAs="a" href="/">Bailey Animal Art</Navbar.Item>
           <Navbar.Burger
             active={this.state.open.toString()}
             onClick={this.burgerClicked.bind(this)}
