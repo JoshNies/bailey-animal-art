@@ -5,13 +5,18 @@
   font-family: "Poppins" !important;
   font-size: 1.75rem !important;
   font-weight: bold !important;
+  margin-left: 1rem;
 }
 
-.navbar-item {
+.navbar-menu .navbar-item {
   font-family: "Poppins";
   font-size: $size-5;
   font-weight: bold !important;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
 
+.navbar-item {
   transition: all $baa-navbar-item-transition-duration ease;
   -webkit-transition: all $baa-navbar-item-transition-duration ease;
   -moz-transition: all $baa-navbar-item-transition-duration ease;
