@@ -22,13 +22,31 @@
 .admin-box {
   margin-left: 2.5rem;
   margin-right: 2.5rem;
+}
 
-  .admin-btn {
-    @include transition($baa-navbar-item-transition-duration);
-    border-radius: 1rem;
+.admin-btn {
+  @include transition($baa-navbar-item-transition-duration);
+  border-radius: 1rem;
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: $size-5;
+  width: 100%;
+}
+
+.admin-box-creation {
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+
+  h1 {
+    @include noselect();
     font-family: "Poppins";
     font-weight: bold;
-    font-size: $size-5;
-    width: 100%;
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 2rem;
   }
+}
+
+.admin-textarea {
+  min-height: 4rem;
 }

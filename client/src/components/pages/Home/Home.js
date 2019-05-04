@@ -6,6 +6,11 @@ import AdminBanner from '../../AdminBanner'
 import Gallery from '../../Gallery'
 
 class Home extends Component {
+  // TODO: Sort by featured index
+  fetchGalleryItems() {
+
+  }
+
   render () {
     return (
       <Consumer>
@@ -20,7 +25,7 @@ class Home extends Component {
                   <h1>Teresa Bailey</h1>
                   <h2>Pet Portrait Artist</h2>
                 </div>
-                <Gallery>
+                <Gallery type="home">
                   {/* Gallery items dynamically populate here... */}
                 </Gallery>
               </div>
