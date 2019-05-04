@@ -33,6 +33,7 @@ class Gallery extends Component {
     super(props)
 
     this.state = {
+      items: [],
       loading: false,
       error: null,
       newSuccessful: false,
@@ -52,6 +53,11 @@ class Gallery extends Component {
         }
       }
     }
+  }
+
+  componentDidMount() {
+    // Fetch gallery items
+    
   }
 
   onNewClicked = () => {
