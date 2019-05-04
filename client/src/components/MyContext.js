@@ -29,17 +29,15 @@ export class Provider extends Component {
     })
   }
 
-  // How to call this from consumer?
   logIn(email, password) {
     Fire.auth().signInWithEmailAndPassword(email, password).then( (user) => {
-      // this.setState({ user })
     }).catch( (e) => {
       console.log("Firebase Error: " + e)
     })
   }
 
   logOut() {
-    // ...
+    Fire.auth().signOut()
   }
 
   render () {

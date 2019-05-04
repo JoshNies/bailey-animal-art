@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Consumer } from '../../MyContext'
 import BAANavbar from '../../BAANavbar'
 import BAAFooter from '../../BAAFooter'
+import AdminBanner from '../../AdminBanner'
 
 class Home extends Component {
   render () {
@@ -13,6 +14,7 @@ class Home extends Component {
             <div className="baa-container">
               <div className="baa-content">
                 <BAANavbar/>
+                <AdminBanner/>
                 <div className="heading">
                   <h1>Teresa Bailey</h1>
                   <h2>Pet Portrait Artist</h2>

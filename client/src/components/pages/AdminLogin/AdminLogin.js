@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import Columns from 'react-bulma-components/lib/components/columns'
 import {
   Field,
@@ -36,7 +37,10 @@ class AdminLogin extends Component {
       <Consumer>
         { value => {
           const { user, logIn, logOut } = value
-          return (
+          // Redirect back to Home if already logged in
+          return user ? (
+            <Redirect to="/"/>
+          ) : (
             <div className="baa-container">
               <div className="baa-content">
                 <BAANavbar/>
