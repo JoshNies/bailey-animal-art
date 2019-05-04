@@ -6,6 +6,7 @@
   text-align: center;
 
   img {
+    @include noselect();
     width: 100%;
     border-radius: 2rem;
   }
