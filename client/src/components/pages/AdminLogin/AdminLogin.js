@@ -68,7 +68,7 @@ class AdminLogin extends Component {
                               />
                           </Control>
                         </Field>
-                        <Button className="login-btn" color="link" onClick={this.onLogInClicked}>log in</Button>
+                        <Button className="login-btn is-size-5" color="link" onClick={this.onLogInClicked}>log in</Button>
                       </div>
                     </div>
                   </Columns.Column>
