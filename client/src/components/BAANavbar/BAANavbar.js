@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import Navbar from 'react-bulma-components/lib/components/navbar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingBag, faPalette } from '@fortawesome/free-solid-svg-icons'
@@ -26,8 +25,6 @@ class BAANavbar extends Component {
   }
 
   render () {
-    const iconMargin = "0.5rem"
-
     return (
       <Consumer>
         { value => {

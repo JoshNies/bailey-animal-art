@@ -36,7 +36,7 @@ class AdminLogin extends Component {
     return (
       <Consumer>
         { value => {
-          const { user, logIn, logOut } = value
+          const { user, logIn } = value
           // Redirect back to Home if already logged in
           return user ? (
             <Redirect to="/"/>

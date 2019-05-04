@@ -15,7 +15,6 @@ class Home extends Component {
     return (
       <Consumer>
         { value => {
-          const { user } = value
           return (
             <div className="baa-container">
               <div className="baa-content">

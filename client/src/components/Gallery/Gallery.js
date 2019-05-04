@@ -6,9 +6,7 @@ import {
   Control,
   Label,
   Input,
-  Checkbox,
-  Textarea,
-  InputFile
+  Textarea
 } from 'react-bulma-components/lib/components/form'
 import Box from 'react-bulma-components/lib/components/box'
 import Level from 'react-bulma-components/lib/components/level'
@@ -180,7 +178,7 @@ class Gallery extends Component {
                 <Box className="admin-box">
                   <Level renderAs="nav">
                     <Level.Item>
-                      { this.props.type == "home" ? (
+                      { this.props.type === "home" ? (
                         <Field className="has-addons">
                           <Control>
                             <Button className="admin-btn">
@@ -217,7 +215,7 @@ class Gallery extends Component {
                 </Message>
               }
 
-              { this.state.error == null && this.state.newSuccessful == true &&
+              { this.state.error === null && this.state.newSuccessful === true &&
                 <Message color="primary" className="admin-successful">
                   <Message.Header>Successful</Message.Header>
                   <Message.Body>
