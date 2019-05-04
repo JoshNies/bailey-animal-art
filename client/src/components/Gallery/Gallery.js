@@ -35,6 +35,7 @@ class Gallery extends Component {
     super(props)
 
     this.state = {
+      loading: false,
       newDialog: false,
       admin: {
         newItem: {
@@ -104,6 +105,12 @@ class Gallery extends Component {
     this.setState({ admin: admin })
   }
 
+  onAddNewClicked = (evt, storage, db) => {
+    this.setState({ loading: true })
+
+    // upload image...
+  }
+
   render () {
     const breakpointColumns = {
       default: 4,
@@ -115,7 +122,7 @@ class Gallery extends Component {
     return (
       <Consumer>
         { value => {
-          const { user } = value
+          const { user, db, storage } = value
           return (
             <div>
               {/* Admin Box */}
@@ -155,159 +162,165 @@ class Gallery extends Component {
               { this.state.newDialog &&
                 <Box className="admin-box-creation">
                   <h1>Add New</h1>
-                  <Columns>
-                    <Columns.Column></Columns.Column>
-                    <Columns.Column>
-                      <Field>
-                        <Control>
-                          <div class="file has-name is-info">
-                            <label class="file-label">
-                              <input
-                                class="file-input"
-                                type="file"
-                                onChange={this.onChangeNewItemImage}
-                                />
-                              <span class="file-cta">
-                                <span class="file-icon">
-                                  <FontAwesomeIcon icon={faUpload}/>
-                                </span>
-                                <span class="file-label">
-                                  Choose main image...
-                                </span>
-                              </span>
-                              <span class="file-name">
-                                {this.state.admin.newItem.image != null ?
-                                  <span>{this.state.admin.newItem.image.name}</span> :
-                                  <span>none</span>
-                                }
-                              </span>
-                            </label>
-                          </div>
-                        </Control>
-                      </Field>
-                      <Field>
-                        <Control>
-                          <div class="file has-name">
-                            <label class="file-label">
-                              <input
-                                class="file-input"
-                                type="file"
-                                onChange={this.onChangeNewItemRefImage}
-                                />
-                              <span class="file-cta">
-                                <span class="file-icon">
-                                  <FontAwesomeIcon icon={faUpload}/>
-                                </span>
-                                <span class="file-label">
-                                  Choose reference image...
-                                </span>
-                              </span>
-                              <span class="file-name">
-                                {this.state.admin.newItem.refImage != null ?
-                                  <span>{this.state.admin.newItem.refImage.name}</span> :
-                                  <span>none</span>
-                                }
-                              </span>
-                            </label>
-                          </div>
-                        </Control>
-                      </Field>
-                      <Field>
-                        <Label>Title</Label>
-                        <Control>
-                          <Input
-                            type="text"
-                            placeholder="title"
-                            value={this.state.admin.newItem.title}
-                            onChange={this.onChangeNewItemTitle}
-                            />
-                        </Control>
-                      </Field>
-                      <Field>
-                        <Label>Description</Label>
-                        <Control>
-                          <Textarea
-                            className="admin-textarea"
-                            placeholder="description"
-                            value={this.state.admin.newItem.desc}
-                            onChange={this.onChangeNewItemDesc}
-                            />
-                        </Control>
-                      </Field>
-                      <Field>
-                        <Label>Price</Label>
-                        <Control>
-                          <Input
-                            type="number"
-                            placeholder="price"
-                            value={this.state.admin.newItem.price}
-                            onChange={this.onChangeNewItemPrice}
-                            />
-                        </Control>
-                      </Field>
-
-                      { this.state.admin.newItem.price > 0 ? (
-                        <Field className="has-addons">
+                  {this.state.loading ? (
+                    <div className="admin-loading">
+                      <h2>uploading, please wait...</h2>
+                    </div>
+                  ) : (
+                    <Columns>
+                      <Columns.Column></Columns.Column>
+                      <Columns.Column>
+                        <Field>
                           <Control>
-                            <Label>Width</Label>
-                            <Input
-                              type="number"
-                              placeholder="width"
-                              value={this.state.admin.newItem.width}
-                              onChange={this.onChangeNewItemWidth}
-                              />
+                            <div className="file has-name is-info">
+                              <label className="file-label">
+                                <input
+                                  className="file-input"
+                                  type="file"
+                                  onChange={this.onChangeNewItemImage}
+                                  />
+                                <span className="file-cta">
+                                  <span className="file-icon">
+                                    <FontAwesomeIcon icon={faUpload}/>
+                                  </span>
+                                  <span className="file-label">
+                                    Choose main image...
+                                  </span>
+                                </span>
+                                <span className="file-name">
+                                  {this.state.admin.newItem.image != null ?
+                                    <span>{this.state.admin.newItem.image.name}</span> :
+                                    <span>none</span>
+                                  }
+                                </span>
+                              </label>
+                            </div>
                           </Control>
+                        </Field>
+                        <Field>
                           <Control>
-                            <Label>Height</Label>
-                            <Input
-                              type="number"
-                              placeholder="height"
-                              value={this.state.admin.newItem.height}
-                              onChange={this.onChangeNewItemHeight}
-                              />
+                            <div className="file has-name">
+                              <label className="file-label">
+                                <input
+                                  className="file-input"
+                                  type="file"
+                                  onChange={this.onChangeNewItemRefImage}
+                                  />
+                                <span className="file-cta">
+                                  <span className="file-icon">
+                                    <FontAwesomeIcon icon={faUpload}/>
+                                  </span>
+                                  <span className="file-label">
+                                    Choose reference image...
+                                  </span>
+                                </span>
+                                <span className="file-name">
+                                  {this.state.admin.newItem.refImage != null ?
+                                    <span>{this.state.admin.newItem.refImage.name}</span> :
+                                    <span>none</span>
+                                  }
+                                </span>
+                              </label>
+                            </div>
                           </Control>
+                        </Field>
+                        <Field>
+                          <Label>Title</Label>
                           <Control>
-                            <Label>Thickness</Label>
                             <Input
-                              type="number"
-                              placeholder="thickness"
-                              value={this.state.admin.newItem.thickness}
-                              onChange={this.onChangeNewItemThickness}
+                              type="text"
+                              placeholder="title"
+                              value={this.state.admin.newItem.title}
+                              onChange={this.onChangeNewItemTitle}
                               />
                           </Control>
                         </Field>
-                      ) : (
-                        <Field className="has-addons">
+                        <Field>
+                          <Label>Description</Label>
                           <Control>
-                            <Label>Width</Label>
-                            <Input
-                              type="number"
-                              placeholder="width"
-                              value={this.state.admin.newItem.width}
-                              onChange={this.onChangeNewItemWidth}
-                              />
-                          </Control>
-                          <Control>
-                            <Label>Height</Label>
-                            <Input
-                              type="number"
-                              placeholder="height"
-                              value={this.state.admin.newItem.height}
-                              onChange={this.onChangeNewItemHeight}
+                            <Textarea
+                              className="admin-textarea"
+                              placeholder="description"
+                              value={this.state.admin.newItem.desc}
+                              onChange={this.onChangeNewItemDesc}
                               />
                           </Control>
                         </Field>
-                      )}
+                        <Field>
+                          <Label>Price</Label>
+                          <Control>
+                            <Input
+                              type="number"
+                              placeholder="price"
+                              value={this.state.admin.newItem.price != null ? this.state.admin.newItem.price : ""}
+                              onChange={this.onChangeNewItemPrice}
+                              />
+                          </Control>
+                        </Field>
 
-                      <Button
-                        className="admin-btn is-large"
-                        onClick={this.onLogInClicked}
-                        >
-                        add
-                      </Button>
-                    </Columns.Column>
-                    <Columns.Column></Columns.Column>
-                  </Columns>
+                        { this.state.admin.newItem.price > 0 ? (
+                          <Field className="has-addons">
+                            <Control>
+                              <Label>Width</Label>
+                              <Input
+                                type="number"
+                                placeholder="width"
+                                value={this.state.admin.newItem.width != null ? this.state.admin.newItem.width : ""}
+                                onChange={this.onChangeNewItemWidth}
+                                />
+                            </Control>
+                            <Control>
+                              <Label>Height</Label>
+                              <Input
+                                type="number"
+                                placeholder="height"
+                                value={this.state.admin.newItem.height != null ? this.state.admin.newItem.height : ""}
+                                onChange={this.onChangeNewItemHeight}
+                                />
+                            </Control>
+                            <Control>
+                              <Label>Thickness</Label>
+                              <Input
+                                type="number"
+                                placeholder="thickness"
+                                value={this.state.admin.newItem.thickness != null ? this.state.admin.newItem.thickness : ""}
+                                onChange={this.onChangeNewItemThickness}
+                                />
+                            </Control>
+                          </Field>
+                        ) : (
+                          <Field className="has-addons">
+                            <Control>
+                              <Label>Width</Label>
+                              <Input
+                                type="number"
+                                placeholder="width"
+                                value={this.state.admin.newItem.width != null ? this.state.admin.newItem.width : ""}
+                                onChange={this.onChangeNewItemWidth}
+                                />
+                            </Control>
+                            <Control>
+                              <Label>Height</Label>
+                              <Input
+                                type="number"
+                                placeholder="height"
+                                value={this.state.admin.newItem.height != null ? this.state.admin.newItem.height : ""}
+                                onChange={this.onChangeNewItemHeight}
+                                />
+                            </Control>
+                          </Field>
+                        )}
+
+                        <Button
+                          className="admin-btn is-large"
+                          onClick={event => this.onAddNewClicked(event, storage, db)}
+                          >
+                          add
+                        </Button>
+                      </Columns.Column>
+                      <Columns.Column></Columns.Column>
+                    </Columns>
+                  )}
                 </Box>
               }
               <Masonry

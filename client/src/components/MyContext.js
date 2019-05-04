@@ -3,6 +3,9 @@ import Fire from '../config/Firebase'
 
 const MyContext = React.createContext()
 
+const db = Fire.firestore()
+const storage = Fire.storage()
+
 export class Provider extends Component {
 
   constructor(props) {
@@ -45,7 +48,9 @@ export class Provider extends Component {
         value={{
           user: this.state.user,
           logIn: this.logIn,
-          logOut: this.logOut
+          logOut: this.logOut,
+          db: db,
+          storage: storage
         }}
         >
         {this.props.children}

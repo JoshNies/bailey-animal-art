@@ -50,3 +50,16 @@
 .admin-textarea {
   min-height: 4rem;
 }
+
+.admin-loading {
+  h2 {
+    @include noselect();
+    text-align: center;
+    font-family: "Poppins";
+    font-weight: bold;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: $info;
+  }
+}
