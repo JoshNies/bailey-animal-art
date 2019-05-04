@@ -13,7 +13,7 @@ import {
 import Box from 'react-bulma-components/lib/components/box'
 import Level from 'react-bulma-components/lib/components/level'
 import Columns from 'react-bulma-components/lib/components/columns'
-import Icon from 'react-bulma-components/lib/components/icon'
+import Message from 'react-bulma-components/lib/components/message'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faUpload } from '@fortawesome/free-solid-svg-icons'
 import { Consumer } from '../MyContext'
@@ -36,6 +36,8 @@ class Gallery extends Component {
 
     this.state = {
       loading: false,
+      error: null,
+      newSuccessful: false,
       newDialog: false,
       admin: {
         newItem: {
@@ -47,7 +49,8 @@ class Gallery extends Component {
           price: null,
           width: null,
           height: null,
-          thickness: null
+          thickness: null,
+          timestamp: null
         }
       }
     }
@@ -105,10 +108,57 @@ class Gallery extends Component {
     this.setState({ admin: admin })
   }
 
-  onAddNewClicked = (evt, storage, db) => {
-    this.setState({ loading: true })
+  validateNewDialog() {
+    let item = this.state.admin.newItem
 
-    // upload image...
+    if (item.image == null || item.title == null) {
+      return false
+    }
+
+    return true
+  }
+
+  onAddNewClicked = (evt, storage, db) => {
+    if (!this.validateNewDialog()) {
+      this.setState({
+        error: "There was an empty field.  Please make sure to upload an" +
+          " and image and enter a title."
+      })
+      return
+    }
+
+    this.setState({ error: null })
+
+    let file = this.state.admin.newItem.image
+    const imageRef = storage.ref('gallery/' + file.name)
+    let task = imageRef.put(file)
+    let imagePath = imageRef.fullPath
+    this.setState({ loading: true })
+    task.on('state_changed',
+      (snapshot) => {
+
+      },
+
+      (e) => {
+        this.setState({ error: e })
+      },
+
+      () => {
+        // Upload Successful
+        let d = new Date()
+        let timestamp = d.getTime()
+
+        let item = this.state.admin.newItem
+        item.image = imagePath
+        item.price == null ? item.price = 0 : item.price = Number(item.price)
+        item.timestamp = timestamp
+
+        // Upload date to firestore
+        db.collection('gallery').add(this.state.admin.newItem)
+
+        this.setState({ newSuccessful: true, loading: false })
+      }
+    )
   }
 
   render () {
@@ -156,6 +206,24 @@ class Gallery extends Component {
                     </Level.Item>
                   </Level>
                 </Box>
+              }
+
+              { this.state.error != null &&
+                <Message color="danger" className="admin-error">
+                  <Message.Header>Error</Message.Header>
+                  <Message.Body>
+                    {this.state.error}
+                  </Message.Body>
+                </Message>
+              }
+
+              { this.state.error == null && this.state.newSuccessful == true &&
+                <Message color="primary" className="admin-successful">
+                  <Message.Header>Successful</Message.Header>
+                  <Message.Body>
+                    "Upload successful!"
+                  </Message.Body>
+                </Message>
               }
 
               {/* "Add New" dialog */}
