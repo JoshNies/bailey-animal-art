@@ -11,3 +11,19 @@
         -ms-user-select: none;
             user-select: none;
 }
+
+html, body {
+  height: 100%;
+}
+
+.baa-container {
+  display: flex;
+  flex-direction: column;
+
+  // Calculate height, taking navbar height (80px) into account.
+  height: calc(100vh - 80px);
+}
+
+.baa-content {
+  flex: 1 0 auto;
+}

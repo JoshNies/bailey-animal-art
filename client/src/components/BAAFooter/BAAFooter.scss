@@ -1,0 +1,15 @@
+@import "~_variables.sass";
+@import "App.scss";
+
+.baa-footer {
+  flex-shrink: 0;
+  background-color: #E3E3E6;
+  color: #B1B1B3;
+  padding: 1.7rem 1.2rem 1.2rem 2.5rem;
+  font-family: "Poppins";
+  font-weight: bold;
+
+  p {
+    margin-bottom: 0.5rem;
+  }
+}
