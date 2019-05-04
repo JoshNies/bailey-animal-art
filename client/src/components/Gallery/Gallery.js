@@ -109,7 +109,7 @@ class Gallery extends Component {
   validateNewDialog() {
     let item = this.state.admin.newItem
 
-    if (item.image == null || item.title == null) {
+    if (item.image === null || item.title === null || item.title.trim() === "") {
       return false
     }
 
@@ -127,36 +127,61 @@ class Gallery extends Component {
 
     this.setState({ error: null })
 
+    // Upload main image
     let file = this.state.admin.newItem.image
-    const imageRef = storage.ref('gallery/' + file.name)
+    const imageRef = storage.ref('gallery/' + file.name + "-main")
     let task = imageRef.put(file)
     let imagePath = imageRef.fullPath
     this.setState({ loading: true })
     task.on('state_changed',
-      (snapshot) => {
-
-      },
+      (snapshot) => {},
 
       (e) => {
         this.setState({ error: e })
       },
 
       () => {
-        // Upload Successful
-        let d = new Date()
-        let timestamp = d.getTime()
+        // Main image upload successful
+        // Upload reference image if needed
+        let refFile = this.state.admin.newItem.refImage
+        if (refFile === null) {
+          this.saveNewItemToDb(db, imagePath, null)
+          return
+        }
 
-        let item = this.state.admin.newItem
-        item.image = imagePath
-        item.price == null ? item.price = 0 : item.price = Number(item.price)
-        item.timestamp = timestamp
+        const refImageRef = storage.ref('gallery/' + refFile.name + "-ref")
+        let refTask = refImageRef.put(file)
+        let refImagePath = refImageRef.fullPath
+        refTask.on('state_changed',
+          (snapshot) => {},
 
-        // Upload date to firestore
-        db.collection('gallery').add(this.state.admin.newItem)
+          (e) => {
+            this.setState({ error: e })
+          },
 
-        this.setState({ newSuccessful: true, loading: false })
+          () => {
+            // Reference image upload successful
+            this.saveNewItemToDb(db, imagePath, refImagePath)
+          }
+        )
       }
     )
+  }
+
+  saveNewItemToDb(db, imagePath, refImagePath) {
+    let d = new Date()
+    let timestamp = d.getTime()
+
+    let item = this.state.admin.newItem
+    item.image = imagePath
+    item.refImage = refImagePath
+    item.price == null ? item.price = 0 : item.price = Number(item.price)
+    item.timestamp = timestamp
+
+    // Upload date to firestore
+    db.collection('gallery').add(this.state.admin.newItem)
+
+    this.setState({ newSuccessful: true, loading: false })
   }
 
   render () {
@@ -219,7 +244,7 @@ class Gallery extends Component {
                 <Message color="primary" className="admin-successful">
                   <Message.Header>Successful</Message.Header>
                   <Message.Body>
-                    "Upload successful!"
+                    Upload successful!
                   </Message.Body>
                 </Message>
               }
