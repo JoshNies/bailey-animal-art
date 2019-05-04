@@ -1,0 +1,12 @@
+@import "~_variables.sass";
+@import "App.scss";
+
+.gallery-item {
+  width: 100%;
+  text-align: center;
+
+  img {
+    width: 100%;
+    border-radius: 2rem;
+  }
+}

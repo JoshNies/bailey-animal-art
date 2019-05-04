@@ -1,0 +1,20 @@
+@import "~_variables.sass";
+@import "App.scss";
+
+.gallery-masonry-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  width: auto;
+  margin-right: $baa-gallery-item-padding;
+}
+
+.gallery-masonry-grid-column {
+  padding-left: $baa-gallery-item-padding; /* gutter size */
+  background-clip: padding-box;
+}
+
+// Masonry item
+.gallery-masonry-grid-column > .gallery-item {
+  margin-bottom: $baa-gallery-item-padding;
+}

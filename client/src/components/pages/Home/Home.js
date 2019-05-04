@@ -3,6 +3,7 @@ import { Consumer } from '../../MyContext'
 import BAANavbar from '../../BAANavbar'
 import BAAFooter from '../../BAAFooter'
 import AdminBanner from '../../AdminBanner'
+import Gallery from '../../Gallery'
 
 class Home extends Component {
   render () {
@@ -19,6 +20,7 @@ class Home extends Component {
                   <h1>Teresa Bailey</h1>
                   <h2>Pet Portrait Artist</h2>
                 </div>
+                <Gallery/>
               </div>
               <BAAFooter/>
             </div>
