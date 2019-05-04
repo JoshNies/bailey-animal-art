@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faUpload } from '@fortawesome/free-solid-svg-icons'
 import { Consumer } from '../MyContext'
 import GalleryItem from '../GalleryItem'
+import Fire from '../../config/Firebase'
 
 // import Painting1 from './Painting_1.jpg'
 // import Painting2 from './Painting_2.jpg'
@@ -57,7 +58,16 @@ class Gallery extends Component {
 
   componentDidMount() {
     // Fetch gallery items
-    
+    var itemsRef = Fire.firestore().collection('gallery')
+    var query = itemsRef.orderBy('timestamp', 'desc').get()
+      .then(snapshot => {
+        snapshot.forEach(item => {
+          console.log(item.id + " => " + item.data())
+        })
+      })
+      .catch(e => {
+        console.log("Gallery fetching error: " + e)
+      })
   }
 
   onNewClicked = () => {
