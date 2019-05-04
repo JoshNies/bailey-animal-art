@@ -18,10 +18,7 @@
 
 .navbar-item {
   @include noselect();
-  transition: all $baa-navbar-item-transition-duration ease;
-  -webkit-transition: all $baa-navbar-item-transition-duration ease;
-  -moz-transition: all $baa-navbar-item-transition-duration ease;
-  -o-transition: all $baa-navbar-item-transition-duration ease;
+  @include transition($baa-navbar-item-transition-duration);
 }
 
 .navbar-burger {

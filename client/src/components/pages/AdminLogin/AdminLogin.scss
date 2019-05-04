@@ -24,7 +24,9 @@
 }
 
 .login-btn {
+  @include transition($baa-navbar-item-transition-duration);
   width: 100%;
   height: 3rem;
   border-radius: 1rem;
+  margin-top: 0.5rem;
 }

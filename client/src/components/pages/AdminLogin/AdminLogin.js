@@ -25,15 +25,17 @@ class AdminLogin extends Component {
     this.setState({ [evt.target.name]: evt.target.value })
   }
 
-  onLogInClicked = () => {
-    console.log("Should try to log in...")
+  onLogInClicked = (evt, logIn) => {
+    // Log in
+    evt.preventDefault()
+    logIn(this.state.username, this.state.password)
   }
 
   render () {
     return (
       <Consumer>
         { value => {
-          const { user } = value
+          const { user, logIn, logOut } = value
           return (
             <div className="baa-container">
               <div className="baa-content">
@@ -68,7 +70,12 @@ class AdminLogin extends Component {
                               />
                           </Control>
                         </Field>
-                        <Button className="login-btn is-size-5" color="link" onClick={this.onLogInClicked}>log in</Button>
+                        <Button
+                          className="login-btn is-size-5"
+                          onClick={event => this.onLogInClicked(event, logIn)}
+                          >
+                          log in
+                        </Button>
                       </div>
                     </div>
                   </Columns.Column>

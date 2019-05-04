@@ -13,6 +13,13 @@
             user-select: none;
 }
 
+@mixin transition($duration) {
+  transition: all $duration ease;
+  -webkit-transition: all $duration ease;
+  -moz-transition: all $duration ease;
+  -o-transition: all $duration ease;
+}
+
 html, body {
   height: 100%;
   background-color: $baa-background-color;

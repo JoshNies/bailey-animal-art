@@ -29,11 +29,26 @@ export class Provider extends Component {
     })
   }
 
+  // How to call this from consumer?
+  logIn(email, password) {
+    Fire.auth().signInWithEmailAndPassword(email, password).then( (user) => {
+      // this.setState({ user })
+    }).catch( (e) => {
+      console.log("Firebase Error: " + e)
+    })
+  }
+
+  logOut() {
+    // ...
+  }
+
   render () {
     return (
       <MyContext.Provider
         value={{
-          user: this.state.user
+          user: this.state.user,
+          logIn: this.logIn,
+          logOut: this.logOut
         }}
         >
         {this.props.children}
