@@ -20,7 +20,9 @@ class Home extends Component {
                   <h1>Teresa Bailey</h1>
                   <h2>Pet Portrait Artist</h2>
                 </div>
-                <Gallery/>
+                <Gallery>
+                  {/* Gallery items dynamically populate here... */}
+                </Gallery>
               </div>
               <BAAFooter/>
             </div>
