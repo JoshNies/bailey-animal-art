@@ -1,4 +1,5 @@
 @import "~react-bulma-components/src/index.sass";
+@import "~_variables.sass";
 
 // Google Fonts
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,700');
@@ -14,6 +15,7 @@
 
 html, body {
   height: 100%;
+  background-color: $baa-background-color;
 }
 
 .baa-container {
