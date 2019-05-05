@@ -7,8 +7,12 @@
 
   img {
     @include noselect();
-    //cursor: pointer;
     width: 100%;
     border-radius: 1.5rem;
   }
+}
+
+.gallery-item .featured {
+  background-color: $link;
+  padding: 0.1rem;
 }
