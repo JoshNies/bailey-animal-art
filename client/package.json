@@ -13,6 +13,7 @@
     "npm-run-all": "^4.1.5",
     "react": "^16.8.6",
     "react-bulma-components": "^2.3.0",
+    "react-compare-image": "^0.8.1",
     "react-dom": "^16.8.6",
     "react-image": "^2.1.1",
     "react-infinite-scroll-component": "^4.5.2",

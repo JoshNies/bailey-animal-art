@@ -236,6 +236,13 @@ class Gallery extends Component {
       return false
     }
 
+    if (this.state.newItemIsFeatured &&
+      (item.featuredOrder === null || item.featuredOrder === undefined ||
+      Number(item.featuredOrder) === NaN)) {
+
+      return false
+    }
+
     return true
   }
 
@@ -252,7 +259,7 @@ class Gallery extends Component {
 
     // Upload main image
     let file = this.state.admin.newItem.image
-    const imageRef = storage.ref('gallery/' + file.name + "-main")
+    const imageRef = storage.ref('gallery/' + this.state.admin.newItem.title + "-main")
     let task = imageRef.put(file)
     let imagePath = imageRef.fullPath
     this.setState({ loading: true })
@@ -272,8 +279,8 @@ class Gallery extends Component {
           return
         }
 
-        const refImageRef = storage.ref('gallery/' + refFile.name + "-ref")
-        let refTask = refImageRef.put(file)
+        const refImageRef = storage.ref('gallery/' + this.state.admin.newItem.title + "-ref")
+        let refTask = refImageRef.put(refFile)
         let refImagePath = refImageRef.fullPath
         refTask.on('state_changed',
           (snapshot) => {},
