@@ -65,8 +65,17 @@ class Gallery extends Component {
     var itemsRef = Fire.firestore().collection('gallery')
     var query = itemsRef.orderBy('timestamp').get()
       .then(snapshot => {
+        // Save each item's data from snapshot into array
         snapshot.forEach(item => {
-          console.log(item.id + " => " + item.data())
+          let items = this.state.items
+          items.push(item.data())
+
+          this.setState({ items })
+        })
+
+        // DEBUG
+        this.state.items.forEach(item => {
+          console.log("Saved " + item)
         })
       })
       .catch(e => {
@@ -462,17 +471,16 @@ class Gallery extends Component {
                 className="gallery-masonry-grid"
                 columnClassName="gallery-masonry-grid-column"
                 >
-                {/* <GalleryItem image={Painting1}/>
-                <GalleryItem image={Painting2}/>
-                <GalleryItem image={Painting3}/>
-                <GalleryItem image={Painting4}/>
-                <GalleryItem image={Painting5}/>
-                <GalleryItem image={Painting6}/>
-                <GalleryItem image={Painting7}/>
-                <GalleryItem image={Painting8}/>
-                <GalleryItem image={Painting9}/>
-                <GalleryItem image={Painting10}/> */}
-                {this.props.children}
+                {
+                  this.state.items.map((item, index) => {
+                    return (
+                      <GalleryItem
+                        key={index}
+                        imagePath={item.image}
+                        />
+                    )
+                  })
+                }
               </Masonry>
             </div>
           )
