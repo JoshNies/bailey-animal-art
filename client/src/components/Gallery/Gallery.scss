@@ -68,3 +68,13 @@
   margin-left: 2.5rem;
   margin-right: 2.5rem;
 }
+
+.gallery-empty-text {
+  @include noselect();
+  text-align: center;
+  font-family: "Poppins";
+  font-weight: bold;
+  text-align: center;
+  font-size: $size-3;
+  margin-bottom: 2rem;
+}

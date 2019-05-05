@@ -18,23 +18,13 @@ import { Consumer } from '../MyContext'
 import GalleryItem from '../GalleryItem'
 import Fire from '../../config/Firebase'
 
-// import Painting1 from './Painting_1.jpg'
-// import Painting2 from './Painting_2.jpg'
-// import Painting3 from './Painting_3.jpg'
-// import Painting4 from './Painting_4.jpg'
-// import Painting5 from './Painting_5.jpg'
-// import Painting6 from './Painting_6.jpg'
-// import Painting7 from './Painting_7.png'
-// import Painting8 from './Painting_8.jpg'
-// import Painting9 from './Painting_9.jpg'
-// import Painting10 from './Painting_10.jpg'
-
 class Gallery extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
       items: [],
+      enableEmptyText: false,
       loading: false,
       error: null,
       newSuccessful: false,
@@ -66,19 +56,15 @@ class Gallery extends Component {
     var query = itemsRef.orderBy('timestamp').get()
       .then(snapshot => {
         // Save each item's data from snapshot into array
+        let items = []
         snapshot.forEach(item => {
-          let items = this.state.items
           items.push(item.data())
-
-          this.setState({ items })
         })
 
-        // DEBUG
-        this.state.items.forEach(item => {
-          console.log("Saved " + item)
-        })
+        this.setState({ items, enableEmptyText: true })
       })
       .catch(e => {
+        this.setState({ enableEmptyText: true })
         console.log("Gallery fetching error: " + e)
       })
   }
@@ -482,6 +468,10 @@ class Gallery extends Component {
                   })
                 }
               </Masonry>
+              { (this.state.items == null || this.state.items.length == undefined ||
+                this.state.items.length == 0) && this.state.enableEmptyText &&
+                <p className="gallery-empty-text">nothing here, please check back later.</p>
+              }
             </div>
           )
         }}
