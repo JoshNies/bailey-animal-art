@@ -58,8 +58,12 @@ class Gallery extends Component {
 
   componentDidMount() {
     // Fetch gallery items
+    this.fetchItems()
+  }
+
+  fetchItems() {
     var itemsRef = Fire.firestore().collection('gallery')
-    var query = itemsRef.orderBy('timestamp', 'desc').get()
+    var query = itemsRef.orderBy('timestamp').get()
       .then(snapshot => {
         snapshot.forEach(item => {
           console.log(item.id + " => " + item.data())
@@ -160,7 +164,7 @@ class Gallery extends Component {
         // Main image upload successful
         // Upload reference image if needed
         let refFile = this.state.admin.newItem.refImage
-        if (refFile === null) {
+        if (refFile === null || refFile === undefined) {
           this.saveNewItemToDb(db, imagePath, null)
           return
         }
@@ -191,13 +195,36 @@ class Gallery extends Component {
     let item = this.state.admin.newItem
     item.image = imagePath
     item.refImage = refImagePath
-    item.price == null ? item.price = 0 : item.price = Number(item.price)
+    item.price === null ? item.price = 0 : item.price = Number(item.price)
+    item.width === null ? item.width = 0 : item.width = Number(item.width)
+    item.height === null ? item.height = 0 : item.height = Number(item.height)
+    item.thickness === null ? item.thickness = 0 : item.thickness = Number(item.thickness)
     item.timestamp = timestamp
 
     // Upload date to firestore
     db.collection('gallery').add(this.state.admin.newItem)
 
-    this.setState({ newSuccessful: true, loading: false })
+    // Clear new item state
+    let admin = this.state.admin
+    let defaultItem = {
+      image: null,
+      refImage: null,
+      title: "",
+      desc: "",
+      sold: false,
+      price: null,
+      width: null,
+      height: null,
+      thickness: null,
+      timestamp: null
+    }
+    admin.newItem = defaultItem
+
+    this.setState({
+      newSuccessful: true,
+      loading: false,
+      admin
+    })
   }
 
   render () {
