@@ -13,6 +13,7 @@ import Box from 'react-bulma-components/lib/components/box'
 import Level from 'react-bulma-components/lib/components/level'
 import Columns from 'react-bulma-components/lib/components/columns'
 import Message from 'react-bulma-components/lib/components/message'
+import Loader from 'react-bulma-components/lib/components/loader'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faUpload } from '@fortawesome/free-solid-svg-icons'
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -71,17 +72,21 @@ class Gallery extends Component {
           let hasMore = false
           snapshot.forEach(item => {
             items.push(item.data())
+            console.log("New item: " + item.id)
             hasMore = true
           })
 
           // Return if no more, and save hasMore state for infinite scroll
           // component
           if (!hasMore) {
+            console.log("No more!")
             this.setState({ enableEmptyText: true, hasMore: false })
             return
           }
 
-          var next = query.startAfter(items[items.length - 1])
+          // Calculate next query
+          var last = snapshot.docs[snapshot.docs.length - 1]
+          var next = query.startAfter(last.data().timestamp)
 
           this.setState({
             items,
@@ -109,7 +114,9 @@ class Gallery extends Component {
             items.push(item.data())
           })
 
-          var next = query.startAfter(items[items.length - 1])
+          // Calculate next query
+          var last = snapshot.docs[snapshot.docs.length - 1]
+          var next = query.startAfter(last.data().timestamp)
 
           this.setState({
             items,
@@ -260,6 +267,14 @@ class Gallery extends Component {
     item.width === null ? item.width = 0 : item.width = Number(item.width)
     item.height === null ? item.height = 0 : item.height = Number(item.height)
     item.thickness === null ? item.thickness = 0 : item.thickness = Number(item.thickness)
+
+    if (item.featuredOrder !== null &&
+      item.featuredOrder !== undefined &&
+      item.featuredOrder !== ""
+    ) {
+      item.featuredOrder = Number(item.featuredOrder)
+    }
+
     item.timestamp = timestamp
 
     // Upload date to firestore
@@ -521,10 +536,11 @@ class Gallery extends Component {
                         <Field>
                           <Control>
                             <Checkbox
+                              className="b-checkbox styled"
                               onChange={this.onChangeNewItemIsFeatured}
                               checked={this.state.newItemIsFeatured}
                               >
-                              Is Featured?
+                              <span>&nbsp;</span>Is Featured?
                             </Checkbox>
                           </Control>
                         </Field>
@@ -559,7 +575,11 @@ class Gallery extends Component {
                 dataLength={this.state.items.length}
                 next={this.fetchItems}
                 hasMore={this.state.hasMore}
-                loader={<h4>Loading...</h4>}
+                loader={
+                  <div className="pagination-loading">
+                    <Loader />
+                  </div>
+                }
                 >
                 <Masonry
                   id="masonry"
