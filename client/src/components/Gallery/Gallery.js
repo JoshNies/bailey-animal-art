@@ -6,7 +6,8 @@ import {
   Control,
   Label,
   Input,
-  Textarea
+  Textarea,
+  Checkbox
 } from 'react-bulma-components/lib/components/form'
 import Box from 'react-bulma-components/lib/components/box'
 import Level from 'react-bulma-components/lib/components/level'
@@ -32,6 +33,7 @@ class Gallery extends Component {
       error: null,
       newSuccessful: false,
       newDialog: false,
+      newItemIsFeatured: false,
       admin: {
         newItem: {
           image: null,
@@ -43,6 +45,7 @@ class Gallery extends Component {
           width: null,
           height: null,
           thickness: null,
+          featuredOrder: null,
           timestamp: null
         }
       },
@@ -174,6 +177,16 @@ class Gallery extends Component {
     this.setState({ admin: admin })
   }
 
+  onChangeNewItemIsFeatured = evt => {
+    this.setState({ newItemIsFeatured: evt.target.checked })
+  }
+
+  onChangeNewItemFeaturedOrder = evt => {
+    let admin = this.state.admin
+    admin.newItem.featuredOrder = evt.target.value
+    this.setState({ admin: admin })
+  }
+
   validateNewDialog() {
     let item = this.state.admin.newItem
 
@@ -187,8 +200,8 @@ class Gallery extends Component {
   onAddNewClicked = (evt, storage, db) => {
     if (!this.validateNewDialog()) {
       this.setState({
-        error: "There was an empty field.  Please make sure to upload an" +
-          " and image and enter a title."
+        error: "There was an empty field.  Please make sure to upload the" +
+          " main image and enter a title."
       })
       return
     }
@@ -323,21 +336,33 @@ class Gallery extends Component {
               }
 
               { this.state.error != null &&
-                <Message color="danger" className="admin-error">
-                  <Message.Header>Error</Message.Header>
-                  <Message.Body>
-                    {this.state.error}
-                  </Message.Body>
-                </Message>
+                <Columns>
+                  <Columns.Column></Columns.Column>
+                  <Columns.Column size="half">
+                    <Message color="danger" className="admin-error">
+                      <Message.Header>Error</Message.Header>
+                      <Message.Body>
+                        {this.state.error}
+                      </Message.Body>
+                    </Message>
+                  </Columns.Column>
+                  <Columns.Column></Columns.Column>
+                </Columns>
               }
 
               { this.state.error === null && this.state.newSuccessful === true &&
-                <Message color="primary" className="admin-successful">
-                  <Message.Header>Successful</Message.Header>
-                  <Message.Body>
-                    Upload successful!
-                  </Message.Body>
-                </Message>
+                <Columns>
+                  <Columns.Column></Columns.Column>
+                  <Columns.Column size="half">
+                    <Message color="primary" className="admin-successful">
+                      <Message.Header>Successful</Message.Header>
+                      <Message.Body>
+                        Upload successful!
+                      </Message.Body>
+                    </Message>
+                  </Columns.Column>
+                  <Columns.Column></Columns.Column>
+                </Columns>
               }
 
               {/* "Add New" dialog */}
@@ -492,6 +517,31 @@ class Gallery extends Component {
                             </Control>
                           </Field>
                         )}
+
+                        <Field>
+                          <Control>
+                            <Checkbox
+                              onChange={this.onChangeNewItemIsFeatured}
+                              checked={this.state.newItemIsFeatured}
+                              >
+                              Is Featured?
+                            </Checkbox>
+                          </Control>
+                        </Field>
+
+                        { this.state.newItemIsFeatured &&
+                          <Field>
+                            <Control>
+                              <Label>Featured Order</Label>
+                              <Input
+                                type="number"
+                                placeholder="featured order"
+                                value={this.state.admin.newItem.featuredOrder != null ? this.state.admin.newItem.featuredOrder : ""}
+                                onChange={this.onChangeNewItemFeaturedOrder}
+                                />
+                            </Control>
+                          </Field>
+                        }
 
                         <Button
                           className="admin-btn is-large"
