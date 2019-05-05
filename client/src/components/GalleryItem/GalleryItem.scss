@@ -12,7 +12,9 @@
   }
 }
 
-.gallery-item .featured {
-  background-color: $link;
-  padding: 0.1rem;
+.featured {
+  img {
+    background-color: $link;
+    padding: 0.3rem;
+  }
 }

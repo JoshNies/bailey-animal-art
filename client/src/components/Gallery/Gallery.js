@@ -58,12 +58,40 @@ class Gallery extends Component {
 
   componentDidMount() {
     // Fetch gallery items
-    this.fetchItems()
+    //this.fetchItems()
+    this.fetchFeaturedItems()
+  }
+
+  fetchFeaturedItems = () => {
+    // Featured items query (gets all without limit)
+    var firestore = Fire.firestore()
+    var query = firestore.collection('gallery')
+      .where('featuredOrder', '>', 0)
+      .orderBy('featuredOrder')
+
+    query.get()
+      .then(snapshot => {
+        // Save each item's data from snapshot into array
+        let items = this.state.items
+        snapshot.forEach(item => {
+          items.push(item.data())
+        })
+
+        // Save items state
+        this.setState({ items, enableEmptyText: true })
+
+        // Fetch rest of items
+        this.fetchItems()
+      })
+      .catch(e => {
+        this.setState({ enableEmptyText: true })
+        console.log("Gallery fetching error: " + e)
+      })
   }
 
   fetchItems = () => {
     if (this.state.nextQuery !== null && this.state.nextQuery !== undefined) {
-      // Subsequent query
+      // Subsequent 'all' query
       var query = this.state.nextQuery
       query.get()
         .then(snapshot => {
@@ -100,9 +128,11 @@ class Gallery extends Component {
           console.log("Gallery fetching error: " + e)
         })
     } else {
-      // First query
+      // First 'all' query
       var firestore = Fire.firestore()
       query = firestore.collection('gallery')
+        .where('featuredOrder', '<=', -1)
+        .orderBy('featuredOrder')
         .orderBy('timestamp', 'desc')
         .limit(itemFetchLimit)
 
@@ -267,13 +297,7 @@ class Gallery extends Component {
     item.width === null ? item.width = 0 : item.width = Number(item.width)
     item.height === null ? item.height = 0 : item.height = Number(item.height)
     item.thickness === null ? item.thickness = 0 : item.thickness = Number(item.thickness)
-
-    if (item.featuredOrder !== null &&
-      item.featuredOrder !== undefined &&
-      item.featuredOrder !== ""
-    ) {
-      item.featuredOrder = Number(item.featuredOrder)
-    }
+    item.featuredOrder === null ? item.featuredOrder = -1 : item.featuredOrder = Number(item.featuredOrder)
 
     item.timestamp = timestamp
 
@@ -593,6 +617,9 @@ class Gallery extends Component {
                       <GalleryItem
                         key={index}
                         imagePath={item.image}
+                        featured={item.featuredOrder !== null &&
+                          item.featuredOrder !== undefined &&
+                          item.featuredOrder > 0}
                         />
                     )
                   })

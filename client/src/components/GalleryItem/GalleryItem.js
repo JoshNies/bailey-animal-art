@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import Img from 'react-image'
-import Fire from '../../config/Firebase'
 import { PulseLoader } from 'react-spinners'
+import { Consumer } from '../MyContext'
+import Fire from '../../config/Firebase'
 
 class GalleryItem extends Component {
   constructor(props) {
@@ -26,8 +27,9 @@ class GalleryItem extends Component {
       })
   }
 
-  getClassName = () => {
-    if (this.props.featured) {
+  getClassName = (user) => {
+    if (this.props.featured && user) {
+      console.log("An item is featured!")
       return "gallery-item featured"
     }
 
@@ -35,23 +37,30 @@ class GalleryItem extends Component {
   }
 
   render () {
-    const containerClass = this.getClassName()
     return (
-      <div className={containerClass}>
-        <Link to={'/gallery/' + 'ITEM_ID_HERE'}>
-          <Img
-            src={this.state.imageSrc}
-            alt="gallery image"
-            loader={
-              <PulseLoader
-                sizeUnit={"rem"}
-                size={1}
-                color={"#7D56E6"}
-                />
-            }
-            />
-        </Link>
-      </div>
+      <Consumer>
+        { value => {
+          const { user } = value
+          const containerClass = this.getClassName(user)
+          return (
+            <div className={containerClass}>
+              <Link to={'/gallery/' + 'ITEM_ID_HERE'}>
+                <Img
+                  src={this.state.imageSrc}
+                  alt="gallery image"
+                  loader={
+                    <PulseLoader
+                      sizeUnit={"rem"}
+                      size={1}
+                      color={"#7D56E6"}
+                      />
+                  }
+                  />
+              </Link>
+            </div>
+          )
+        }}
+      </Consumer>
     )
   }
 }
