@@ -14,9 +14,12 @@ import Columns from 'react-bulma-components/lib/components/columns'
 import Message from 'react-bulma-components/lib/components/message'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faUpload } from '@fortawesome/free-solid-svg-icons'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { Consumer } from '../MyContext'
 import GalleryItem from '../GalleryItem'
 import Fire from '../../config/Firebase'
+
+const itemFetchLimit = 4
 
 class Gallery extends Component {
   constructor(props) {
@@ -42,7 +45,10 @@ class Gallery extends Component {
           thickness: null,
           timestamp: null
         }
-      }
+      },
+      fetchIndex: 0,
+      nextQuery: null,
+      hasMore: true
     }
   }
 
@@ -51,22 +57,69 @@ class Gallery extends Component {
     this.fetchItems()
   }
 
-  fetchItems() {
-    var itemsRef = Fire.firestore().collection('gallery')
-    var query = itemsRef.orderBy('timestamp').get()
-      .then(snapshot => {
-        // Save each item's data from snapshot into array
-        let items = []
-        snapshot.forEach(item => {
-          items.push(item.data())
-        })
+  fetchItems = () => {
+    if (this.state.nextQuery !== null && this.state.nextQuery !== undefined) {
+      // Subsequent query
+      var query = this.state.nextQuery
+      query.get()
+        .then(snapshot => {
+          // Save each item's data from snapshot into array
+          let items = this.state.items
+          let hasMore = false
+          snapshot.forEach(item => {
+            items.push(item.data())
+            hasMore = true
+          })
 
-        this.setState({ items, enableEmptyText: true })
-      })
-      .catch(e => {
-        this.setState({ enableEmptyText: true })
-        console.log("Gallery fetching error: " + e)
-      })
+          // Return if no more, and save hasMore state for infinite scroll
+          // component
+          if (!hasMore) {
+            this.setState({ enableEmptyText: true, hasMore: false })
+            return
+          }
+
+          var next = query.startAfter(items[items.length - 1])
+
+          this.setState({
+            items,
+            enableEmptyText: true,
+            fetchIndex: this.state.fetchIndex + (itemFetchLimit - 1),
+            nextQuery: next
+          })
+        })
+        .catch(e => {
+          this.setState({ enableEmptyText: true })
+          console.log("Gallery fetching error: " + e)
+        })
+    } else {
+      // First query
+      var firestore = Fire.firestore()
+      query = firestore.collection('gallery')
+        .orderBy('timestamp')
+        .limit(itemFetchLimit)
+
+      query.get()
+        .then(snapshot => {
+          // Save each item's data from snapshot into array
+          let items = this.state.items
+          snapshot.forEach(item => {
+            items.push(item.data())
+          })
+
+          var next = query.startAfter(items[items.length - 1])
+
+          this.setState({
+            items,
+            enableEmptyText: true,
+            fetchIndex: this.state.fetchIndex + (itemFetchLimit - 1),
+            nextQuery: next
+          })
+        })
+        .catch(e => {
+          this.setState({ enableEmptyText: true })
+          console.log("Gallery fetching error: " + e)
+        })
+    }
   }
 
   onNewClicked = () => {
@@ -452,11 +505,18 @@ class Gallery extends Component {
                   )}
                 </Box>
               }
-              <Masonry
-                breakpointCols={breakpointColumns}
-                className="gallery-masonry-grid"
-                columnClassName="gallery-masonry-grid-column"
+              <InfiniteScroll
+                dataLength={this.state.items.length}
+                next={this.fetchItems}
+                hasMore={this.state.hasMore}
+                loader={<h4>Loading...</h4>}
                 >
+                <Masonry
+                  id="masonry"
+                  breakpointCols={breakpointColumns}
+                  className="gallery-masonry-grid"
+                  columnClassName="gallery-masonry-grid-column"
+                  >
                 {
                   this.state.items.map((item, index) => {
                     return (
@@ -467,9 +527,10 @@ class Gallery extends Component {
                     )
                   })
                 }
-              </Masonry>
-              { (this.state.items == null || this.state.items.length == undefined ||
-                this.state.items.length == 0) && this.state.enableEmptyText &&
+                </Masonry>
+              </InfiniteScroll>
+              { (this.state.items === null || this.state.items.length === undefined ||
+                this.state.items.length === 0) && this.state.enableEmptyText &&
                 <p className="gallery-empty-text">nothing here, please check back later.</p>
               }
             </div>
