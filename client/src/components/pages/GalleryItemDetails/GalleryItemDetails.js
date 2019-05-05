@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import Columns from 'react-bulma-components/lib/components/columns'
+import Button from 'react-bulma-components/lib/components/button'
 import { Consumer } from '../../MyContext'
 import BAANavbar from '../../BAANavbar'
 import BAAFooter from '../../BAAFooter'
@@ -10,7 +12,8 @@ class GalleryItemDetails extends Component {
 
     this.state = {
       itemId: this.props.match.params.itemId,
-      item: null
+      item: null,
+      notFound: false
     }
   }
 
@@ -29,7 +32,7 @@ class GalleryItemDetails extends Component {
       .then(doc => {
         // Redirect to Not Found page if doc doesn't exist
         if (!doc.exists) {
-          this.redirectToNotFound()
+          this.setState({ notFound: true })
           return
         }
 
@@ -38,10 +41,6 @@ class GalleryItemDetails extends Component {
       .catch(e => {
         console.log("Gallery item fetching error: " + e)
       })
-  }
-
-  redirectToNotFound = () => {
-    this.props.history.push('/404')
   }
 
   render () {
@@ -53,12 +52,27 @@ class GalleryItemDetails extends Component {
             <div className="baa-container">
               <div className="baa-content">
                 <BAANavbar/>
-                <h1>Gallery Item Details</h1>
-                <h2>Details for item: {this.state.itemId}</h2>
 
-                {/* DEBUG */}
+                {/* Item Details */}
                 { this.state.item !== null && this.state.item !== undefined &&
-                  <p>Item fetched! Has title: {this.state.item.title}</p>
+                  <Columns>
+                    <Columns.Column></Columns.Column>
+                    <Columns.Column className="details-image">
+                      <h1>IMAGE HERE</h1>
+                    </Columns.Column>
+                    <Columns.Column className="details-block">
+                      <h1>{this.state.item.title}</h1>
+                      <p>{this.state.item.desc}</p>
+                    </Columns.Column>
+                    <Columns.Column></Columns.Column>
+                  </Columns>
+                }
+
+                {/* Not Found */}
+                { this.state.notFound &&
+                  <div>
+                    <h1>Not Found</h1>
+                  </div>
                 }
               </div>
               <BAAFooter/>
