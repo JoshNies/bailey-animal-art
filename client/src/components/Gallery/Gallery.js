@@ -74,7 +74,9 @@ class Gallery extends Component {
         // Save each item's data from snapshot into array
         let items = this.state.items
         snapshot.forEach(item => {
-          items.push(item.data())
+          let newItem = item.data()
+          newItem.id = item.id
+          items.push(newItem)
         })
 
         // Save items state
@@ -99,15 +101,16 @@ class Gallery extends Component {
           let items = this.state.items
           let hasMore = false
           snapshot.forEach(item => {
-            items.push(item.data())
-            console.log("New item: " + item.id)
+            let newItem = item.data()
+            newItem.id = item.id
+            items.push(newItem)
+
             hasMore = true
           })
 
           // Return if no more, and save hasMore state for infinite scroll
           // component
           if (!hasMore) {
-            console.log("No more!")
             this.setState({ enableEmptyText: true, hasMore: false })
             return
           }
@@ -141,7 +144,9 @@ class Gallery extends Component {
           // Save each item's data from snapshot into array
           let items = this.state.items
           snapshot.forEach(item => {
-            items.push(item.data())
+            let newItem = item.data()
+            newItem.id = item.id
+            items.push(newItem)
           })
 
           // Calculate next query
@@ -604,6 +609,7 @@ class Gallery extends Component {
                       <GalleryItem
                         key={index}
                         imagePath={item.image}
+                        itemId={item.id}
                         featured={item.featuredOrder !== null &&
                           item.featuredOrder !== undefined &&
                           item.featuredOrder > 0}

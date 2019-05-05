@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import Img from 'react-image'
 import { PulseLoader } from 'react-spinners'
 import { Consumer } from '../MyContext'
@@ -44,7 +43,7 @@ class GalleryItem extends Component {
           const containerClass = this.getClassName(user)
           return (
             <div className={containerClass}>
-              <Link to={'/gallery/' + 'ITEM_ID_HERE'}>
+              <a href={'/gallery/' + this.props.itemId}>
                 <Img
                   src={this.state.imageSrc}
                   alt="gallery image"
@@ -56,7 +55,7 @@ class GalleryItem extends Component {
                       />
                   }
                   />
-              </Link>
+              </a>
             </div>
           )
         }}
