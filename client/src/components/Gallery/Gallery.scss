@@ -7,6 +7,8 @@
   display: flex;
   width: auto;
   margin-right: $baa-gallery-item-padding;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 .gallery-masonry-grid-column {
@@ -84,6 +86,8 @@
 
   * {
     margin: 0 auto;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
     width: 3rem;
     height: 3rem;
   }
