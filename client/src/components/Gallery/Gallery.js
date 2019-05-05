@@ -238,7 +238,7 @@ class Gallery extends Component {
 
     if (this.state.newItemIsFeatured &&
       (item.featuredOrder === null || item.featuredOrder === undefined ||
-      Number(item.featuredOrder) === NaN)) {
+      Number(item.featuredOrder).isNaN())) {
 
       return false
     }
