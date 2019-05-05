@@ -57,8 +57,8 @@ class Gallery extends Component {
   }
 
   componentDidMount() {
-    // Fetch gallery items
-    //this.fetchItems()
+    // Fetch featured gallery items
+    // (Rest of items are fetched via InfiniteScroll component)
     this.fetchFeaturedItems()
   }
 
@@ -316,6 +316,7 @@ class Gallery extends Component {
       width: null,
       height: null,
       thickness: null,
+      featuredOrder: null,
       timestamp: null
     }
     admin.newItem = defaultItem

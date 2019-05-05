@@ -27,9 +27,9 @@ class GalleryItem extends Component {
       })
   }
 
+  // Get class name for container div based on featured and user status
   getClassName = (user) => {
     if (this.props.featured && user) {
-      console.log("An item is featured!")
       return "gallery-item featured"
     }
 
