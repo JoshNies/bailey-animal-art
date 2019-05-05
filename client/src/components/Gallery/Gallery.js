@@ -163,7 +163,7 @@ class Gallery extends Component {
   }
 
   onNewClicked = () => {
-    this.setState({ newDialog: true })
+    this.setState({ newDialog: !this.state.newDialog })
   }
 
   onChangeNewItemTitle = evt => {
@@ -347,29 +347,14 @@ class Gallery extends Component {
                 <Box className="admin-box">
                   <Level renderAs="nav">
                     <Level.Item>
-                      { this.props.type === "home" ? (
-                        <Field className="has-addons">
-                          <Control>
-                            <Button className="admin-btn">
-                              manage featured
-                            </Button>
-                          </Control>
-                          <Control>
-                            <Button
-                              className="admin-btn"
-                              onClick={this.onNewClicked}
-                              >
-                              <FontAwesomeIcon icon={faPlus}/> new
-                            </Button>
-                          </Control>
-                        </Field>
-                      ) : (
-                        <Control>
-                          <Button className="admin-btn">
-                            <FontAwesomeIcon icon={faPlus}/> new
-                          </Button>
-                        </Control>
-                      )}
+                      <Control>
+                        <Button
+                          className="admin-btn"
+                          onClick={this.onNewClicked}
+                          >
+                          <FontAwesomeIcon icon={faPlus}/> new
+                        </Button>
+                      </Control>
                     </Level.Item>
                   </Level>
                 </Box>
@@ -596,6 +581,7 @@ class Gallery extends Component {
                   )}
                 </Box>
               }
+
               <InfiniteScroll
                 dataLength={this.state.items.length}
                 next={this.fetchItems}
