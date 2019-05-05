@@ -21,7 +21,7 @@ import { Consumer } from '../MyContext'
 import GalleryItem from '../GalleryItem'
 import Fire from '../../config/Firebase'
 
-const itemFetchLimit = 4
+const itemFetchLimit = 8
 
 class Gallery extends Component {
   constructor(props) {
@@ -103,7 +103,7 @@ class Gallery extends Component {
       // First query
       var firestore = Fire.firestore()
       query = firestore.collection('gallery')
-        .orderBy('timestamp')
+        .orderBy('timestamp', 'desc')
         .limit(itemFetchLimit)
 
       query.get()

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import Img from 'react-image'
 import Fire from '../../config/Firebase'
+import { PulseLoader } from 'react-spinners'
 
 class GalleryItem extends Component {
   constructor(props) {
@@ -15,7 +17,7 @@ class GalleryItem extends Component {
     this.fetchImage()
   }
 
-  fetchImage() {
+  fetchImage = () => {
     const storage = Fire.storage().ref('')
     storage.child(this.props.imagePath).getDownloadURL()
       .then((url) => {
@@ -26,7 +28,17 @@ class GalleryItem extends Component {
   render () {
     return (
       <div className="gallery-item">
-        <img src={this.state.imageSrc} alt="gallery item"/>
+        <Img
+          src={this.state.imageSrc}
+          alt="gallery image"
+          loader={
+            <PulseLoader
+              sizeUnit={"rem"}
+              size={1}
+              color={"#7D56E6"}
+              />
+          }
+          />
       </div>
     )
   }
