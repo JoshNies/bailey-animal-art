@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Columns from 'react-bulma-components/lib/components/columns'
 import Button from 'react-bulma-components/lib/components/button'
-import { PulseLoader } from 'react-spinners'
+import { BarLoader } from 'react-spinners'
 import ReactCompareImage from 'react-compare-image'
 import Img from 'react-image'
 import { Consumer } from '../../MyContext'
@@ -89,6 +89,18 @@ class GalleryItemDetails extends Component {
               <div className="baa-content">
                 <BAANavbar/>
 
+                { this.state.loadingImages &&
+                  <div className="details-image-loading">
+                    <BarLoader
+                      widthUnit={"%"}
+                      width={100}
+                      heightUnit={"rem"}
+                      height={0.3}
+                      color={"#6444ba"}
+                      />
+                  </div>
+                }
+
                 {/* Item Details */}
                 { this.state.item !== null && this.state.item !== undefined &&
                   <Columns className="details-container">
@@ -96,18 +108,7 @@ class GalleryItemDetails extends Component {
                     <Columns.Column className="details-image-column">
                       {
                         (() => {
-                          if (this.state.loadingImages) {
-                            // Loading
-                            return (
-                              <div className="details-image-loading">
-                                <PulseLoader
-                                  sizeUnit={"rem"}
-                                  size={1}
-                                  color={"#7D56E6"}
-                                  />
-                              </div>
-                            )
-                          } else {
+                          if (!this.state.loadingImages) {
                             // Finished loading
                             if (this.state.refImageSrc !== null &&
                               this.state.refImageSrc !== undefined
@@ -120,6 +121,9 @@ class GalleryItemDetails extends Component {
                                     leftImage={this.state.refImageSrc}
                                     rightImage={this.state.mainImageSrc}
                                     />
+                                  <p className="details-image-comparison-subtitle">
+                                    slide to compare
+                                  </p>
                                 </div>
                               )
                             } else {
