@@ -1,0 +1,84 @@
+@import "~_variables.sass";
+@import "App.scss";
+
+.co-columns {
+  margin-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+.heading {
+  margin-top: 10vh;
+
+  * {
+    @include noselect();
+    font-family: "Poppins";
+    font-weight: bold;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 6rem;
+  }
+
+  h2 {
+    font-size: 3rem;
+    margin-top: -1rem;
+  }
+
+  p {
+    margin-top: -6rem;
+    margin-bottom: 7rem;
+  }
+}
+
+.co-btn {
+  @include transition($baa-navbar-item-transition-duration);
+  border-radius: 1rem;
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: $size-5;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.co-textarea {
+  min-height: 4rem;
+}
+
+.co-dropdown {
+  * {
+    font-family: "Poppins";
+    font-size: $size-5;
+    font-weight: bold;
+  }
+}
+
+@media screen and (max-width: $tablet) {
+  .heading {
+    h1 {
+      font-size: 5rem;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin-top: -0.75rem;
+    }
+  }
+
+  .co-form {
+    padding: 2rem;
+  }
+}
+
+@media screen and (max-width: $phone) {
+  .heading {
+    h1 {
+      font-size:3rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-top: -0.5rem;
+    }
+  }
+}
