@@ -121,13 +121,16 @@ class CustomOrder extends Component {
     const imageRef = storage.ref('custom-orders/' + this.state.refImage.name)
     let task = imageRef.put(file)
     let imagePath = imageRef.fullPath
-    this.setState({ loading: true })
+    this.setState({ loading: true, error: null })
     task.on('state_changed',
       (snapshot) => {},
 
       (e) => {
         console.log("Reference image upload error: " + e)
-        this.setState({ error: "Something went wrong, please try again later." })
+        this.setState({
+          error: "Something went wrong, please try again later.",
+          loading: false
+        })
       },
 
       () => {
@@ -138,7 +141,10 @@ class CustomOrder extends Component {
           })
           .catch(e => {
             console.log("Reference image download url error: " + e)
-            this.setState({ error: "Something went wrong, please try again later." })
+            this.setState({
+              error: "Something went wrong, please try again later.",
+              loading: false
+            })
           })
       }
     )
@@ -159,11 +165,11 @@ class CustomOrder extends Component {
       })
       .query({
         html: '<h3>New custom order request from ' + this.state.email + '.</h3>' +
-        '<hr /><p>Description: ' + this.state.desc + '</p><hr /><p>Dimensions: ' +
+        '<hr /><p><b>Description:</b> ' + this.state.desc + '</p><hr /><p><b>Dimensions:</b> ' +
         this.state.width + ' x ' + this.state.height + ' in, thickness of ' +
-        this.state.thickness + ' in</p><hr /><p>Type: ' + this.state.type +
-        '</p><hr /><p>Number of pets: ' + this.state.numPets + '</p><hr /><p>' +
-        'Reference image link: ' + refImageUrl
+        this.state.thickness + ' in</p><hr /><p><b>Type:</b> ' + this.state.type +
+        '</p><hr /><p><b>Number of pets:</b> ' + this.state.numPets + '</p><hr /><p>' +
+        '<b>Reference image link:</b> ' + refImageUrl
       })
       .send({
         "message": "The message"
@@ -171,10 +177,13 @@ class CustomOrder extends Component {
       .end((err, res) => {
         if (err) {
           console.log('Error: ', err)
-          this.setState({ error: "Something went wrong, please try again later." })
+          this.setState({
+            error: "Something went wrong, please try again later.",
+            loading: false
+          })
         } else {
           // Email send successfully
-          this.setState({ loading: false, successful: true })
+          this.setState({ loading: false, successful: true, error: null })
         }
       })
   }
