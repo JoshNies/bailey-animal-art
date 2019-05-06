@@ -19,7 +19,9 @@ class CheckoutForm extends Component {
       name: "",
       email: "",
       address: "",
-      state: ""
+      city: "",
+      state: "",
+      zip: ""
     }
   }
 
@@ -40,8 +42,16 @@ class CheckoutForm extends Component {
     this.setState({ address: evt.target.value })
   }
 
+  onChangeCity = evt => {
+    this.setState({ city: evt.target.value })
+  }
+
   onChangeState = evt => {
     this.setState({ state: evt.target.value })
+  }
+
+  onChangeZip = evt => {
+    this.setState({ zip: evt.target.value })
   }
 
   validateInputs = () => {
@@ -54,9 +64,17 @@ class CheckoutForm extends Component {
       this.state.address === null ||
       this.state.address === undefined ||
       this.state.address === '' ||
+      this.state.city === null ||
+      this.state.city === undefined ||
+      this.state.city === '' ||
       this.state.state === null ||
       this.state.state === undefined ||
-      this.state.state === ''
+      this.state.state === '' ||
+      this.state.state.length < 2 ||
+      this.state.zip === null ||
+      this.state.zip === undefined ||
+      this.state.zip === '' ||
+      this.state.zip.length < 5
     ) {
       return false
     }
@@ -70,14 +88,25 @@ class CheckoutForm extends Component {
       return
     }
 
-    let token = this.props.stripe.createToken({ name: this.state.name })
+    this.setState({ error: null })
+
+    // Stripe payment
+    try {
+      let token = await this.props.stripe.createToken({ name: this.state.name })
+      console.log("Stripe Token: " + token)
+    } catch (e) {
+      console.log("Payment error: " + e)
+      this.setState({
+        error: "Something went wrong.  Please make sure all fields are typed in correctly."
+      })
+    }
   }
 
   render () {
     return (
       <div className="checkout-form-container">
         { this.state.error != null &&
-          <Message color="danger" className="admin-error">
+          <Message color="danger" className="checkout-error">
             <Message.Header>Error</Message.Header>
             <Message.Body>
               {this.state.error}
@@ -124,6 +153,17 @@ class CheckoutForm extends Component {
         </Field>
         <Field>
           <Control>
+            <Label>City</Label>
+            <Input
+              type="text"
+              placeholder="city"
+              value={this.state.city}
+              onChange={this.onChangeCity}
+              />
+          </Control>
+        </Field>
+        <Field>
+          <Control>
             <Label>State (2-character code)</Label>
             <Input
               className="checkout-input-state"
@@ -133,6 +173,17 @@ class CheckoutForm extends Component {
               onChange={this.onChangeState}
               maxLength="2"
               pattern="[a-zA-Z]*"
+              />
+          </Control>
+        </Field>
+        <Field>
+          <Control>
+            <Label>Zipcode</Label>
+            <Input
+              type="number"
+              placeholder="zipcode"
+              value={this.state.zip}
+              onChange={this.onChangeZip}
               />
           </Control>
         </Field>
