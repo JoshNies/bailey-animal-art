@@ -6,6 +6,7 @@ import About from './pages/About'
 import GalleryItemDetails from './pages/GalleryItemDetails'
 import Shop from './pages/Shop'
 import CustomOrder from './pages/CustomOrder'
+import Checkout from './pages/Checkout'
 import NotFound from './pages/NotFound'
 
 class Routes extends Component {
@@ -18,6 +19,7 @@ class Routes extends Component {
         <Route exact path='/gallery/:itemId' component={GalleryItemDetails}/>
         <Route exact path='/shop' component={Shop}/>
         <Route exact path='/custom-order' component={CustomOrder}/>
+        <Route exact path='/checkout/:itemId' component={Checkout}/>
         <Route component={NotFound}/>
       </Switch>
     )

@@ -359,7 +359,7 @@ class GalleryItemDetails extends Component {
                               // For sale
                               return (
                                 <div>
-                                  <a href="/purchase">
+                                  <a href={'/checkout/' + this.state.itemId}>
                                     <p className="purchase-btn">
                                       <span className="purchase-btn-title">
                                         PURCHASE
