@@ -1,2 +1,65 @@
 @import "~_variables.sass";
 @import "App.scss";
+
+.about-container {
+  margin-top: 3rem;
+  @include noselect();
+  font-family: "Poppins";
+  text-align: center;
+  font-weight: bold;
+
+  h1 {
+    font-size: 5rem;
+    font-weight: bold !important;
+  }
+
+  h2 {
+    font-size: 3rem;
+    margin-top: -1rem;
+    font-weight: bold !important;
+  }
+
+  p {
+    font-size: 1.5rem;
+    color: #818181;
+    margin-top: 1rem;
+  }
+}
+
+.about-selfphoto {
+  width: 14rem;
+  height: 14rem;
+  border-radius: 7rem;
+}
+
+.about-facebook {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1.5rem;
+}
+
+@media screen and (max-width: $tablet) {
+  .about-container {
+    h1 {
+      font-size: 5rem;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin-top: -0.75rem;
+    }
+  }
+}
+
+@media screen and (max-width: $phone) {
+  .about-container {
+    h1 {
+      font-size: 3rem;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin-top: -0.5rem;
+    }
+  }
+}
