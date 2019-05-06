@@ -345,12 +345,34 @@ class GalleryItemDetails extends Component {
                       <Columns.Column className="details-block">
                         <h1>{this.state.item.title}</h1>
 
-                        {/* Show commision subtitle if not for sale */}
-                        { (this.state.item.price === null ||
-                          this.state.item.price === undefined ||
-                          this.state.item.price <= 0
-                        ) &&
-                          <p className="details-subtitle">commission</p>
+                        {
+                          (() => {
+                            if (this.state.item.price === null ||
+                              this.state.item.price === undefined ||
+                              this.state.item.price <= 0
+                            ) {
+                              // Not for sale
+                              return (
+                                <p className="details-subtitle">commission</p>
+                              )
+                            } else {
+                              // For sale
+                              return (
+                                <div>
+                                  <a href="/purchase">
+                                    <p className="purchase-btn">
+                                      <span className="purchase-btn-title">
+                                        PURCHASE
+                                      </span>
+                                      <span className="purchase-btn-price">
+                                        ${this.state.item.price}
+                                      </span>
+                                  </p>
+                                  </a>
+                                </div>
+                              )
+                            }
+                          })()
                         }
 
                         <p className="details-desc">{this.state.item.desc}</p>

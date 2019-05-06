@@ -44,6 +44,12 @@
     font-size: $size-5;
   }
 
+  .details-price {
+    @include noselect()
+    color: #818181;
+    font-size: $size-3;
+  }
+
   .details-desc {
     margin-top: 3rem;
     font-size: $size-5;
@@ -68,6 +74,34 @@
       color: #000;
       padding-left: 3rem;
     }
+  }
+}
+
+.purchase-btn {
+  @include transition($baa-navbar-item-transition-duration);
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #fff;
+  margin-top: 1.5rem;
+
+  .purchase-btn-title {
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    background-color: #1aed87;
+    padding: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .purchase-btn-price {
+    background-color: #16cc74;
+    height: 100%;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 
