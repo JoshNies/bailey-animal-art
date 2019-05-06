@@ -24,6 +24,10 @@ class CheckoutForm extends Component {
     this.setState({ name: evt.target.value })
   }
 
+  onPayClicked = () => {
+    // ...
+  }
+
   render () {
     return (
       <div className="checkout-form-container">
@@ -38,6 +42,16 @@ class CheckoutForm extends Component {
               />
           </Control>
         </Field>
+        <Label>Billing Info</Label>
+        <CardElement
+          className="checkout-card"
+          />
+        <Button
+          className="checkout-btn"
+          onClick={this.onPayClicked}
+          >
+          PAY
+        </Button>
       </div>
     )
   }

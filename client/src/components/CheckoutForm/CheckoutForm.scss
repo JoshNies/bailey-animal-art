@@ -2,5 +2,22 @@
 @import "App.scss";
 
 .checkout-form-container {
-  
+
+}
+
+.checkout-card {
+  background-color: #fff;
+  border-radius: 0.25rem;
+  padding: 0.75rem;
+  border: 0.05rem solid #A4A4A6;
+}
+
+.checkout-btn {
+  @include transition($baa-navbar-item-transition-duration);
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #fff;
+  margin-top: 1.5rem;
+  border-radius: 1rem;
 }

@@ -53,6 +53,7 @@ class Checkout extends Component {
                   <h2>+ shipping: &nbsp;&nbsp;&nbsp;$30</h2>
                   <hr />
                   <h2>total: &nbsp;&nbsp;&nbsp;${this.state.item.price + 30}</h2>
+                  <h3>all sales are final.</h3>
                 </div>
               }
             </Columns.Column>
