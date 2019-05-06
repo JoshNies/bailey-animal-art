@@ -1,0 +1,49 @@
+@import "~_variables.sass";
+@import "App.scss";
+
+.heading {
+  margin-top: 10vh;
+
+  * {
+    @include noselect();
+    font-family: "Poppins";
+    font-weight: bold;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 6rem;
+  }
+
+  h2 {
+    font-size: 4rem;
+    margin-top: -1rem;
+    margin-bottom: 7rem;
+  }
+}
+
+@media screen and (max-width: $tablet) {
+  .heading {
+    h1 {
+      font-size: 5rem;
+    }
+
+    h2 {
+      font-size: 3rem;
+      margin-top: -0.75rem;
+    }
+  }
+}
+
+@media screen and (max-width: $phone) {
+  .heading {
+    h1 {
+      font-size:3rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-top: -0.5rem;
+    }
+  }
+}

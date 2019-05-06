@@ -62,7 +62,11 @@ class Gallery extends Component {
   componentDidMount() {
     // Fetch featured gallery items
     // (Rest of items are fetched via InfiniteScroll component)
-    this.fetchFeaturedItems()
+    if (this.props.type === "home") {
+      this.fetchFeaturedItems()
+    } else {
+      this.fetchItems()
+    }
   }
 
   fetchFeaturedItems = () => {
@@ -136,11 +140,19 @@ class Gallery extends Component {
     } else {
       // First 'all' query
       var firestore = Fire.firestore()
-      query = firestore.collection('gallery')
-        .where('featuredOrder', '<=', -1)
-        .orderBy('featuredOrder')
-        .orderBy('timestamp', 'desc')
-        .limit(itemFetchLimit)
+
+      if (this.props.type === "home") {
+        query = firestore.collection('gallery')
+          .where('featuredOrder', '<=', -1)
+          .orderBy('featuredOrder')
+          .orderBy('timestamp', 'desc')
+          .limit(itemFetchLimit)
+      } else {
+        query = firestore.collection('gallery')
+          .where('price', '>', 0)
+          .orderBy('price')
+          .limit(itemFetchLimit)
+      }
 
       query.get()
         .then(snapshot => {

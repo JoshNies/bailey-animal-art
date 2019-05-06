@@ -8,12 +8,11 @@ import {
   Checkbox
 } from 'react-bulma-components/lib/components/form'
 import Box from 'react-bulma-components/lib/components/box'
-import Level from 'react-bulma-components/lib/components/level'
 import Message from 'react-bulma-components/lib/components/message'
 import Columns from 'react-bulma-components/lib/components/columns'
 import Button from 'react-bulma-components/lib/components/button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faUpload } from '@fortawesome/free-solid-svg-icons'
+import { faUpload } from '@fortawesome/free-solid-svg-icons'
 import { BarLoader } from 'react-spinners'
 import ReactCompareImage from 'react-compare-image'
 import Img from 'react-image'
@@ -262,7 +261,7 @@ class GalleryItemDetails extends Component {
     let itemId = this.state.itemId
 
     if (item === null || item === undefined || itemId === null ||
-      itemId == undefined || itemId.trim() === ''
+      itemId === undefined || itemId.trim() === ''
     ) { return }
 
     item.width = Number(item.width)
