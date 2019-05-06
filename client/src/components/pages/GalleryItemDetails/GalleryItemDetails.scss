@@ -3,10 +3,7 @@
 
 .details-container {
   margin-top: 5rem;
-}
-
-.details-image-column {
-
+  width: 100%;
 }
 
 .details-image {
@@ -82,8 +79,16 @@
   .details-block {
     padding: 1.5rem;
   }
-}
 
-@media screen and (max-width: $phone) {
+  // Mobile fix
+  .details-image {
+    img {
+      margin-left: 0.75rem;
+    }
+  }
 
+  // Mobile fix
+  .details-image-comparison {
+    margin-left: 1.5rem;
+  }
 }

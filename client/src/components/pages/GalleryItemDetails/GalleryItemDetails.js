@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Columns from 'react-bulma-components/lib/components/columns'
-import Button from 'react-bulma-components/lib/components/button'
+//import Button from 'react-bulma-components/lib/components/button'
 import { BarLoader } from 'react-spinners'
 import ReactCompareImage from 'react-compare-image'
 import Img from 'react-image'
@@ -83,7 +83,7 @@ class GalleryItemDetails extends Component {
     return (
       <Consumer>
         {value => {
-          const { user } = value
+          //const { user } = value
           return (
             <div className="baa-container">
               <div className="baa-content">
