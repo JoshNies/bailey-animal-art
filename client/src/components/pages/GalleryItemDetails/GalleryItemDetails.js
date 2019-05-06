@@ -54,7 +54,8 @@ class GalleryItemDetails extends Component {
         editedImage: null,
         editedRefImage: null,
         disableImageField: false,
-        disableRefImageField: false
+        disableRefImageField: false,
+        editedItemIsFeatured: false
       },
       error: null,
       updateSuccessful: false
@@ -232,6 +233,18 @@ class GalleryItemDetails extends Component {
     this.setState({ admin })
   }
 
+  onChangeItemIsFeatured = evt => {
+    let admin = this.state.admin
+    admin.editedItemIsFeatured = evt.target.checked
+    this.setState({ admin })
+  }
+
+  onChangeItemFeaturedOrder = evt => {
+    let admin = this.state.admin
+    admin.editedItem.featuredOrder = evt.target.value
+    this.setState({ admin })
+  }
+
   onChangeItemTestimonial = evt => {
     let admin = this.state.admin
     admin.editedItem.testimonial = evt.target.value
@@ -251,6 +264,11 @@ class GalleryItemDetails extends Component {
     if (item === null || item === undefined || itemId === null ||
       itemId == undefined || itemId.trim() === ''
     ) { return }
+
+    item.width = Number(item.width)
+    item.height = Number(item.height)
+    item.thickness = Number(item.thickness)
+    item.featuredOrder = Number(item.featuredOrder)
 
     var firestore = Fire.firestore()
     firestore.collection('gallery').doc(itemId).set(item)
@@ -427,10 +445,6 @@ class GalleryItemDetails extends Component {
 
                               <Box className="admin-box">
                                 <h1>Edit</h1>
-                                {/* <h2>
-                                  only fill in the fields that needing change.
-                                  &nbsp; empty fields will remain the same.
-                                </h2> */}
                                 { this.state.admin.loading ? (
                                   <div className="admin-loading">
                                     <h2>uploading, please wait...</h2>
@@ -568,6 +582,32 @@ class GalleryItemDetails extends Component {
                                             />
                                         </Control>
                                       </Field>
+                                      <Field>
+                                        <Control>
+                                          <Checkbox
+                                            className="b-checkbox styled"
+                                            onChange={this.onChangeItemIsFeatured}
+                                            checked={this.state.admin.editedItemIsFeatured}
+                                            >
+                                            <span>&nbsp;</span>Is Featured?
+                                          </Checkbox>
+                                        </Control>
+                                      </Field>
+
+                                      { this.state.admin.editedItemIsFeatured &&
+                                        <Field>
+                                          <Control>
+                                            <Label>Featured Order</Label>
+                                            <Input
+                                              type="number"
+                                              placeholder="featured order"
+                                              value={this.state.admin.editedItem.featuredOrder != null ? this.state.admin.editedItem.featuredOrder : ""}
+                                              onChange={this.onChangeItemFeaturedOrder}
+                                              />
+                                          </Control>
+                                        </Field>
+                                      }
+
                                       <Field>
                                         <Label>Testimonial</Label>
                                         <Control>
