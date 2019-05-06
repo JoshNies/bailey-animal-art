@@ -4,10 +4,8 @@ import {
   Control,
   Label,
   Input,
-  Textarea,
-  Checkbox
+  Textarea
 } from 'react-bulma-components/lib/components/form'
-import Box from 'react-bulma-components/lib/components/box'
 import Message from 'react-bulma-components/lib/components/message'
 import Columns from 'react-bulma-components/lib/components/columns'
 import Button from 'react-bulma-components/lib/components/button'
@@ -19,8 +17,6 @@ import request from 'superagent'
 import { Consumer } from '../../MyContext'
 import BAANavbar from '../../BAANavbar'
 import BAAFooter from '../../BAAFooter'
-import AdminBanner from '../../AdminBanner'
-import Fire from '../../../config/Firebase'
 
 class CustomOrder extends Component {
   constructor(props) {
@@ -120,7 +116,7 @@ class CustomOrder extends Component {
     let file = this.state.refImage
     const imageRef = storage.ref('custom-orders/' + this.state.refImage.name)
     let task = imageRef.put(file)
-    let imagePath = imageRef.fullPath
+    //let imagePath = imageRef.fullPath
     this.setState({ loading: true, error: null })
     task.on('state_changed',
       (snapshot) => {},
@@ -153,8 +149,9 @@ class CustomOrder extends Component {
   sendEmail(refImageUrl) {
     // Send email
     request
-      .post('/api/custom-order/send')
+      .post('/api/sendemail')
       .set('Accept', 'application/json')
+      .query({ subject: 'Bailey Animal Art - Custom Order' })
       .query({
         text: 'New custom order request from ' + this.state.email + '.  ' +
           'Description: ' + this.state.desc + ';  Dimensions: ' +
@@ -192,7 +189,7 @@ class CustomOrder extends Component {
     return (
       <Consumer>
         { value => {
-          const { user, storage } = value
+          const { storage } = value
           return (
             <div className="baa-container">
               <div className="baa-content">

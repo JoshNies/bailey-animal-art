@@ -150,6 +150,7 @@ class Gallery extends Component {
       } else {
         query = firestore.collection('gallery')
           .where('price', '>', 0)
+          .where('sold', '==', false)
           .orderBy('price')
           .limit(itemFetchLimit)
       }
@@ -158,11 +159,19 @@ class Gallery extends Component {
         .then(snapshot => {
           // Save each item's data from snapshot into array
           let items = this.state.items
+          var hasAny = false
           snapshot.forEach(item => {
             let newItem = item.data()
             newItem.id = item.id
             items.push(newItem)
+            hasAny = true
           })
+
+          // Return and set empty state if no items were queried
+          if (!hasAny) {
+            this.setState({ enableEmptyText: true, hasMore: false })
+            return
+          }
 
           // Calculate next query
           var last = snapshot.docs[snapshot.docs.length - 1]

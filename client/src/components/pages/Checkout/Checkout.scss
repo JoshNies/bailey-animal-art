@@ -39,3 +39,31 @@ hr {
     margin-top: 2rem !important;
     margin-bottom: 2rem !important;
 }
+
+.checkout-payed-container {
+  @include noselect();
+  font-family: "Poppins";
+  text-align: center;
+
+  h1 {
+    font-size: 3rem;
+    font-weight: bold !important;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: bold !important;
+    margin-top: 1rem;
+  }
+}
+
+.checkout-redirect-btn {
+  @include transition($baa-navbar-item-transition-duration);
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #fff;
+  border-radius: 1rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}

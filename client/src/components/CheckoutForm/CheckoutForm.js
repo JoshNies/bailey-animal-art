@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { CardElement, injectStripe, ReactStripeElements } from 'react-stripe-elements'
+import { CardElement, injectStripe } from 'react-stripe-elements'
 import {
   Field,
   Control,
@@ -7,7 +7,6 @@ import {
   Input
 } from 'react-bulma-components/lib/components/form'
 import Message from 'react-bulma-components/lib/components/message'
-import Columns from 'react-bulma-components/lib/components/columns'
 import Button from 'react-bulma-components/lib/components/button'
 import request from 'superagent'
 
@@ -27,7 +26,7 @@ class CheckoutForm extends Component {
 
   alphaOnly = (evt) => {
     var key = evt.keyCode
-    return ((key >= 65 && key <= 90) || key == 8)
+    return ((key >= 65 && key <= 90) || key === 8)
   };
 
   onChangeName = evt => {
@@ -88,12 +87,14 @@ class CheckoutForm extends Component {
       return
     }
 
-    let name = this.state.name
     let amount = Number(this.props.price)
     if (isNaN(amount)) {
       this.setState({ error: "There was an issue with this item, please try again later." })
       return
     }
+
+    // Add shipping (this is done here to ensure amount is a number)
+    amount += 30
 
     this.setState({ error: null })
 
@@ -115,9 +116,7 @@ class CheckoutForm extends Component {
             })
           } else {
             // Payment successful
-            // TODO: redirect, thank you message, etc goes here (like in stripe docs)
-            // ...
-            console.log("Pay Request Successful!")
+            this.props.onSuccess(this.state)
           }
         })
     } catch (e) {

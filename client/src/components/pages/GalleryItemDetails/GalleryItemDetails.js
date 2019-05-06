@@ -349,7 +349,8 @@ class GalleryItemDetails extends Component {
                           (() => {
                             if (this.state.item.price === null ||
                               this.state.item.price === undefined ||
-                              this.state.item.price <= 0
+                              this.state.item.price <= 0 ||
+                              this.state.item.sold === true
                             ) {
                               // Not for sale
                               return (

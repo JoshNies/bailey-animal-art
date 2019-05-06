@@ -13,9 +13,7 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 app.use(require('body-parser').text())
 
 // Send custom order email
-app.post('/api/custom-order/send', (req, res) => {
-  console.log("Sending email...");
-
+app.post('/api/sendemail', (req, res) => {
   // Create nodemailer transporter
   let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -29,7 +27,7 @@ app.post('/api/custom-order/send', (req, res) => {
   let mailOptions = {
     from: '"Bailey Animal Art" <baileyanimalartbaa@gmail.com>',
     to: 'whatsthatfunction@gmail.com',
-    subject: 'Bailey Animal Art - Custom Order',
+    subject: req.query.subject,
     text: req.query.text,
     html: req.query.html
   };
@@ -37,7 +35,6 @@ app.post('/api/custom-order/send', (req, res) => {
   // Send email
   transporter.sendMail(mailOptions)
     .then(res => {
-      console.log("Email sent! Response: ", res)
       res.json({ success: true });
     })
     .catch(e => {
