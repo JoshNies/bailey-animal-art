@@ -71,12 +71,37 @@
   }
 }
 
-@media screen and (max-width: $tablet) {
-  .details-image-column {
-    padding: 1.5rem;
+.details-testimonial-columns {
+  margin-top: 3rem;
+  padding-bottom: 3rem;
+  width: 100%;
+}
+
+.details-testimonial {
+  @include noselect()
+  font-family: "Poppins";
+  color: #000;
+  background-color: #fff;
+  border-radius: 1.5rem;
+  padding: 2rem;
+
+  h1 {
+    font-weight: bold !important;
+    font-size: $size-5;
   }
 
-  .details-block {
+  h2 {
+    margin-top: 0.5rem;
+    color: #A4A4A6;
+    font-weight: bold !important;
+    font-size: $size-5;
+  }
+}
+
+@media screen and (max-width: $tablet) {
+  .details-image-column,
+  .details-block,
+  .details-testimonial-columns {
     padding: 1.5rem;
   }
 
@@ -90,5 +115,15 @@
   // Mobile fix
   .details-image-comparison {
     margin-left: 1.5rem;
+  }
+
+  // Mobile fix
+  .details-block {
+    margin-left: 0.5rem;
+  }
+
+  // Mobile fix
+  .details-testimonial-columns {
+    margin-left: 0.05rem;
   }
 }

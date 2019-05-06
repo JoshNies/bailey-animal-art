@@ -103,86 +103,113 @@ class GalleryItemDetails extends Component {
 
                 {/* Item Details */}
                 { this.state.item !== null && this.state.item !== undefined &&
-                  <Columns className="details-container">
-                    <Columns.Column></Columns.Column>
-                    <Columns.Column className="details-image-column">
-                      {
-                        (() => {
-                          if (!this.state.loadingImages) {
-                            // Finished loading
-                            if (this.state.refImageSrc !== null &&
-                              this.state.refImageSrc !== undefined
-                            ) {
-                              // Show image comparison
-                              console.log("Image comparison!")
-                              return (
-                                <div className="details-image-comparison">
-                                  <ReactCompareImage
-                                    leftImage={this.state.refImageSrc}
-                                    rightImage={this.state.mainImageSrc}
-                                    />
-                                  <p className="details-image-comparison-subtitle">
-                                    slide to compare
-                                  </p>
-                                </div>
-                              )
-                            } else {
-                              // Only show main image
-                              return (
-                                <div className="details-image">
-                                  <Img
-                                    src={this.state.mainImageSrc}
-                                    alt="gallery item image"
-                                    />
-                                </div>
-                              )
+                  <div>
+                    <Columns className="details-container">
+                      <Columns.Column></Columns.Column>
+                      <Columns.Column className="details-image-column">
+                        {
+                          (() => {
+                            if (!this.state.loadingImages) {
+                              // Finished loading
+                              if (this.state.refImageSrc !== null &&
+                                this.state.refImageSrc !== undefined
+                              ) {
+                                // Show image comparison
+                                console.log("Image comparison!")
+                                return (
+                                  <div className="details-image-comparison">
+                                    <ReactCompareImage
+                                      leftImage={this.state.refImageSrc}
+                                      rightImage={this.state.mainImageSrc}
+                                      />
+                                    <p className="details-image-comparison-subtitle">
+                                      slide to compare
+                                    </p>
+                                  </div>
+                                )
+                              } else {
+                                // Only show main image
+                                return (
+                                  <div className="details-image">
+                                    <Img
+                                      src={this.state.mainImageSrc}
+                                      alt="gallery item image"
+                                      />
+                                  </div>
+                                )
+                              }
                             }
-                          }
-                        })()
-                      }
-                    </Columns.Column>
-                    <Columns.Column className="details-block">
-                      <h1>{this.state.item.title}</h1>
+                          })()
+                        }
+                      </Columns.Column>
+                      <Columns.Column className="details-block">
+                        <h1>{this.state.item.title}</h1>
 
-                      {/* Show commision subtitle if not for sale */}
-                      { (this.state.item.price === null ||
-                        this.state.item.price === undefined ||
-                        this.state.item.price <= 0
-                      ) &&
-                        <p className="details-subtitle">commission</p>
-                      }
+                        {/* Show commision subtitle if not for sale */}
+                        { (this.state.item.price === null ||
+                          this.state.item.price === undefined ||
+                          this.state.item.price <= 0
+                        ) &&
+                          <p className="details-subtitle">commission</p>
+                        }
 
-                      <p className="details-desc">{this.state.item.desc}</p>
+                        <p className="details-desc">{this.state.item.desc}</p>
 
-                      {/* Dimensions */}
-                      { this.state.item.width !== null &&
-                        this.state.item.width !== undefined &&
-                        this.state.item.width > 0 &&
-                        this.state.item.height !== null &&
-                        this.state.item.height !== undefined &&
-                        this.state.item.height > 0 &&
-                        <p className="details-dim">
-                          dimensions:
-                          <span className="details-dim-amount">
-                            {this.state.item.width} x {this.state.item.height} in
-                          </span>
-                        </p>
-                      }
+                        {/* Dimensions */}
+                        { this.state.item.width !== null &&
+                          this.state.item.width !== undefined &&
+                          this.state.item.width > 0 &&
+                          this.state.item.height !== null &&
+                          this.state.item.height !== undefined &&
+                          this.state.item.height > 0 &&
+                          <p className="details-dim">
+                            dimensions:
+                            <span className="details-dim-amount">
+                              {this.state.item.width} x {this.state.item.height} in
+                            </span>
+                          </p>
+                        }
 
-                      {/* Thickness */}
-                      { this.state.item.thickness !== null &&
-                        this.state.item.thickness !== undefined &&
-                        this.state.item.thickness > 0 &&
-                        <p className="details-thickness">
-                          thickness:
-                          <span className="details-thickness-amount">
-                            {this.state.item.thickness} in
-                          </span>
-                        </p>
-                      }
-                    </Columns.Column>
-                    <Columns.Column></Columns.Column>
-                  </Columns>
+                        {/* Thickness */}
+                        { this.state.item.thickness !== null &&
+                          this.state.item.thickness !== undefined &&
+                          this.state.item.thickness > 0 &&
+                          <p className="details-thickness">
+                            thickness:
+                            <span className="details-thickness-amount">
+                              {this.state.item.thickness} in
+                            </span>
+                          </p>
+                        }
+                      </Columns.Column>
+                      <Columns.Column></Columns.Column>
+                    </Columns>
+
+                    {
+                      (() => {
+                        if (this.state.item.testimonial !== null &&
+                          this.state.item.testimonial !== undefined &&
+                          this.state.item.testimonial.trim() !== "" &&
+                          this.state.item.testimonialAuthor !== null &&
+                          this.state.item.testimonialAuthor !== undefined &&
+                          this.state.item.testimonialAuthor.trim() !== ""
+                        ) {
+                          return (
+                            <Columns className="details-testimonial-columns">
+                              <Columns.Column></Columns.Column>
+                              <Columns.Column size="half" className="details-testimonial">
+                                <h1><i>"{this.state.item.testimonial}"</i></h1>
+                                <h2>- {this.state.item.testimonialAuthor}</h2>
+                              </Columns.Column>
+                              <Columns.Column></Columns.Column>
+                            </Columns>
+                          )
+                        } else {
+                          return null
+                        }
+                      })()
+                    }
+                  </div>
                 }
 
                 {/* Not Found */}

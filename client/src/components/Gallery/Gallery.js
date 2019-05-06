@@ -35,6 +35,7 @@ class Gallery extends Component {
       newSuccessful: false,
       newDialog: false,
       newItemIsFeatured: false,
+      newItemHasTestimonial: false,
       admin: {
         newItem: {
           image: null,
@@ -46,6 +47,8 @@ class Gallery extends Component {
           width: null,
           height: null,
           thickness: null,
+          testimonial: "",
+          testimonialAuthor: "",
           featuredOrder: null,
           timestamp: null
         }
@@ -223,6 +226,22 @@ class Gallery extends Component {
     this.setState({ newItemIsFeatured: evt.target.checked })
   }
 
+  onChangeNewItemHasTestimonial = evt => {
+    this.setState({ newItemHasTestimonial: evt.target.checked })
+  }
+
+  onChangeNewItemTestimonial = evt => {
+    let admin = this.state.admin
+    admin.newItem.testimonial = evt.target.value
+    this.setState({ admin: admin })
+  }
+
+  onChangeNewItemTestimonialAuthor = evt => {
+    let admin = this.state.admin
+    admin.newItem.testimonialAuthor = evt.target.value
+    this.setState({ admin: admin })
+  }
+
   onChangeNewItemFeaturedOrder = evt => {
     let admin = this.state.admin
     admin.newItem.featuredOrder = evt.target.value
@@ -329,6 +348,8 @@ class Gallery extends Component {
       height: null,
       thickness: null,
       featuredOrder: null,
+      testimonial: "",
+      testimonialAuthor: "",
       timestamp: null
     }
     admin.newItem = defaultItem
@@ -579,6 +600,45 @@ class Gallery extends Component {
                                 />
                             </Control>
                           </Field>
+                        }
+
+                        <Field>
+                          <Control>
+                            <Checkbox
+                              className="b-checkbox styled"
+                              onChange={this.onChangeNewItemHasTestimonial}
+                              checked={this.state.newItemHasTestimonial}
+                              >
+                              <span>&nbsp;</span>Has Testimonial?
+                            </Checkbox>
+                          </Control>
+                        </Field>
+
+                        { this.state.newItemHasTestimonial &&
+                          <div>
+                            <Field>
+                              <Control>
+                                <Label>Testimonial</Label>
+                                <Textarea
+                                  className="admin-textarea"
+                                  placeholder="testimonial"
+                                  value={this.state.admin.newItem.testimonial}
+                                  onChange={this.onChangeNewItemTestimonial}
+                                  />
+                              </Control>
+                            </Field>
+                            <Field>
+                              <Control>
+                                <Label>Testimonial Author</Label>
+                                <Input
+                                  type="text"
+                                  placeholder="author"
+                                  value={this.state.admin.newItem.testimonialAuthor}
+                                  onChange={this.onChangeNewItemTestimonialAuthor}
+                                  />
+                              </Control>
+                            </Field>
+                          </div>
                         }
 
                         <Button
