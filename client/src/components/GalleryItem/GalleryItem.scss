@@ -14,7 +14,8 @@
 
 .featured {
   img {
-    background-color: $link;
+    background-color: $baa-background-color;
     padding: 0.3rem;
+    border: 0.45rem solid $baa-featured-color;
   }
 }

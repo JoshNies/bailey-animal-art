@@ -98,6 +98,17 @@
   }
 }
 
+.details-notfound {
+  h1 {
+    @include noselect()
+    font-family: "Poppins";
+    font-size: 4rem;
+    font-weight: bold;
+    margin-top: 3rem;
+    text-align: center;
+  }
+}
+
 @media screen and (max-width: $tablet) {
   .details-image-column,
   .details-block,

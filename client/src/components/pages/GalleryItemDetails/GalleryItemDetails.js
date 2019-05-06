@@ -1,10 +1,24 @@
 import React, { Component } from 'react'
+import {
+  Field,
+  Control,
+  Label,
+  Input,
+  Textarea,
+  Checkbox
+} from 'react-bulma-components/lib/components/form'
+import Box from 'react-bulma-components/lib/components/box'
+import Level from 'react-bulma-components/lib/components/level'
+import Message from 'react-bulma-components/lib/components/message'
 import Columns from 'react-bulma-components/lib/components/columns'
-//import Button from 'react-bulma-components/lib/components/button'
+import Button from 'react-bulma-components/lib/components/button'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faUpload } from '@fortawesome/free-solid-svg-icons'
 import { BarLoader } from 'react-spinners'
 import ReactCompareImage from 'react-compare-image'
 import Img from 'react-image'
 import { Consumer } from '../../MyContext'
+import AdminBanner from '../../AdminBanner'
 import BAANavbar from '../../BAANavbar'
 import BAAFooter from '../../BAAFooter'
 import Fire from '../../../config/Firebase'
@@ -38,7 +52,7 @@ class GalleryItemDetails extends Component {
       .then(doc => {
         // Redirect to Not Found page if doc doesn't exist
         if (!doc.exists) {
-          this.setState({ notFound: true })
+          this.setState({ notFound: true, loadingImages: false })
           return
         }
 
@@ -83,11 +97,12 @@ class GalleryItemDetails extends Component {
     return (
       <Consumer>
         {value => {
-          //const { user } = value
+          const { user } = value
           return (
             <div className="baa-container">
               <div className="baa-content">
                 <BAANavbar/>
+                <AdminBanner/>
 
                 { this.state.loadingImages &&
                   <div className="details-image-loading">
@@ -214,7 +229,7 @@ class GalleryItemDetails extends Component {
 
                 {/* Not Found */}
                 { this.state.notFound &&
-                  <div>
+                  <div className="details-notfound">
                     <h1>Not Found</h1>
                   </div>
                 }
