@@ -251,10 +251,14 @@ class Gallery extends Component {
   validateNewDialog() {
     let item = this.state.admin.newItem
 
-    if (item.image === null || item.title === null || item.title.trim() === "") {
+    // Check for main details
+    if (item.image === null || item.title === null || item.title.trim() === '' ||
+      item.desc === null || item.desc.trim() === ''
+    ) {
       return false
     }
 
+    // If featured, check for featured order number
     if (this.state.newItemIsFeatured &&
       (item.featuredOrder === null || item.featuredOrder === undefined ||
       Number(item.featuredOrder).isNaN())) {

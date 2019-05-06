@@ -33,7 +33,27 @@ class GalleryItemDetails extends Component {
       notFound: false,
       loadingImages: true,
       mainImageSrc: null,
-      refImageSrc: null
+      refImageSrc: null,
+      admin: {
+        loading: false,
+        editedItem: {
+          image: null,
+          refImage: null,
+          title: "",
+          desc: "",
+          sold: false,
+          price: null,
+          width: null,
+          height: null,
+          thickness: null,
+          testimonial: "",
+          testimonialAuthor: "",
+          featuredOrder: null,
+          timestamp: null
+        },
+        editedImage: null,
+        editedRefImage: null
+      }
     }
   }
 
@@ -55,6 +75,14 @@ class GalleryItemDetails extends Component {
           this.setState({ notFound: true, loadingImages: false })
           return
         }
+
+        // this.setState({
+        //   item: doc.data(),
+        //   admin: {
+        //     loading: false,
+        //     editedItem: doc.data()
+        //   }
+        // })
 
         this.setState({ item: doc.data() })
 
@@ -91,6 +119,72 @@ class GalleryItemDetails extends Component {
       .then((url) => {
         this.setState({ refImageSrc: url, loadingImages: false })
       })
+  }
+
+  onChangeItemImage = evt => {
+    let admin = this.state.admin
+    admin.editedImage = evt.target.files[0]
+    this.setState({ admin })
+  }
+
+  onChangeItemRefImage = evt => {
+    let admin = this.state.admin
+    admin.editedRefImage = evt.target.files[0]
+    this.setState({ admin })
+  }
+
+  onChangeItemTitle = evt => {
+    let admin = this.state.admin
+    admin.editedItem.title = evt.target.value
+    this.setState({ admin })
+  }
+
+  onChangeItemDesc = evt => {
+    let admin = this.state.admin
+    admin.editedItem.desc = evt.target.value
+    this.setState({ admin })
+  }
+
+  onChangeItemPrice = evt => {
+    let admin = this.state.admin
+    admin.editedItem.price = evt.target.value
+    this.setState({ admin })
+  }
+
+  onChangeItemWidth = evt => {
+    let admin = this.state.admin
+    admin.editedItem.width = evt.target.value
+    this.setState({ admin })
+  }
+
+  onChangeItemHeight = evt => {
+    let admin = this.state.admin
+    admin.editedItem.height = evt.target.value
+    this.setState({ admin })
+  }
+
+  onChangeItemThickness = evt => {
+    let admin = this.state.admin
+    admin.editedItem.thickness = evt.target.value
+    this.setState({ admin })
+  }
+
+  onChangeItemSold = evt => {
+    let admin = this.state.admin
+    admin.editedItem.sold = evt.target.checked
+    this.setState({ admin })
+  }
+
+  onChangeItemTestimonial = evt => {
+    let admin = this.state.admin
+    admin.editedItem.testimonial = evt.target.value
+    this.setState({ admin })
+  }
+
+  onChangeItemTestimonialAuthor = evt => {
+    let admin = this.state.admin
+    admin.editedItem.testimonialAuthor = evt.target.value
+    this.setState({ admin })
   }
 
   render () {
@@ -219,9 +313,179 @@ class GalleryItemDetails extends Component {
                               <Columns.Column></Columns.Column>
                             </Columns>
                           )
-                        } else {
-                          return null
-                        }
+                        } else { return null }
+                      })()
+                    }
+
+                    {
+                      (() => {
+                        if (user) {
+                          return (
+                            <Box className="admin-box">
+                              <h1>Edit</h1>
+                              <h2>
+                                only fill in the fields that needing change.
+                                &nbsp; empty fields will remain the same.
+                              </h2>
+                              { this.state.admin.loading ? (
+                                <div className="admin-loading">
+                                  <h2>uploading, please wait...</h2>
+                                </div>
+                              ) : (
+                                <Columns>
+                                  <Columns.Column></Columns.Column>
+                                  <Columns.Column size="half">
+                                    <Field>
+                                      <Control>
+                                        <div className="file has-name is-info">
+                                          <label className="file-label">
+                                            <input
+                                              className="file-input"
+                                              type="file"
+                                              onChange={this.onChangeItemImage}
+                                              />
+                                            <span className="file-cta">
+                                              <span className="file-icon">
+                                                <FontAwesomeIcon icon={faUpload}/>
+                                              </span>
+                                              <span className="file-label">
+                                                Choose main image...
+                                              </span>
+                                            </span>
+                                            <span className="file-name">
+                                              {this.state.admin.editedImage != null ?
+                                                <span>{this.state.admin.editedImage.name}</span> :
+                                                <span>none</span>
+                                              }
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </Control>
+                                    </Field>
+                                    <Field>
+                                      <Control>
+                                        <div className="file has-name">
+                                          <label className="file-label">
+                                            <input
+                                              className="file-input"
+                                              type="file"
+                                              onChange={this.onChangeItemRefImage}
+                                              />
+                                            <span className="file-cta">
+                                              <span className="file-icon">
+                                                <FontAwesomeIcon icon={faUpload}/>
+                                              </span>
+                                              <span className="file-label">
+                                                Choose reference image...
+                                              </span>
+                                            </span>
+                                            <span className="file-name">
+                                              {this.state.admin.editedRefImage != null ?
+                                                <span>{this.state.admin.editedRefImage.name}</span> :
+                                                <span>none</span>
+                                              }
+                                            </span>
+                                          </label>
+                                        </div>
+                                      </Control>
+                                    </Field>
+                                    <Field>
+                                      <Label>Title</Label>
+                                      <Control>
+                                        <Input
+                                          type="text"
+                                          placeholder="title"
+                                          value={this.state.admin.editedItem.title}
+                                          onChange={this.onChangeItemTitle}
+                                          />
+                                      </Control>
+                                    </Field>
+                                    <Field>
+                                      <Label>Description</Label>
+                                      <Control>
+                                        <Textarea
+                                          className="admin-textarea"
+                                          placeholder="description"
+                                          value={this.state.admin.editedItem.desc}
+                                          onChange={this.onChangeItemDesc}
+                                          />
+                                      </Control>
+                                    </Field>
+                                    <Field>
+                                      <Label>Price</Label>
+                                      <Control>
+                                        <Input
+                                          type="number"
+                                          placeholder="price"
+                                          value={this.state.admin.editedItem.price != null ? this.state.admin.editedItem.price : ""}
+                                          onChange={this.onChangeItemPrice}
+                                          />
+                                      </Control>
+                                    </Field>
+                                    <Field className="has-addons">
+                                      <Control>
+                                        <Label>Width</Label>
+                                        <Input
+                                          type="number"
+                                          placeholder="width"
+                                          value={this.state.admin.editedItem.width != null ? this.state.admin.editedItem.width : ""}
+                                          onChange={this.onChangeItemWidth}
+                                          />
+                                      </Control>
+                                      <Control>
+                                        <Label>Height</Label>
+                                        <Input
+                                          type="number"
+                                          placeholder="height"
+                                          value={this.state.admin.editedItem.height != null ? this.state.admin.editedItem.height : ""}
+                                          onChange={this.onChangeItemHeight}
+                                          />
+                                      </Control>
+                                      <Control>
+                                        <Label>Thickness</Label>
+                                        <Input
+                                          type="number"
+                                          placeholder="thickness"
+                                          value={this.state.admin.editedItem.thickness != null ? this.state.admin.editedItem.thickness : ""}
+                                          onChange={this.onChangeItemThickness}
+                                          />
+                                      </Control>
+                                    </Field>
+                                    <Field>
+                                      <Label>Testimonial</Label>
+                                      <Control>
+                                        <Textarea
+                                          className="admin-textarea"
+                                          placeholder="testimonial"
+                                          value={this.state.admin.editedItem.testimonial}
+                                          onChange={this.onChangeItemTestimonial}
+                                          />
+                                      </Control>
+                                    </Field>
+                                    <Field>
+                                      <Label>Testimonial Author</Label>
+                                      <Control>
+                                        <Input
+                                          type="text"
+                                          placeholder="author"
+                                          value={this.state.admin.editedItem.testimonialAuthor}
+                                          onChange={this.onChangeItemTestimonialAuthor}
+                                          />
+                                      </Control>
+                                    </Field>
+                                    <Button
+                                      className="admin-btn is-large"
+                                      onClick={this.onAddNewClicked}
+                                      >
+                                      update
+                                    </Button>
+                                  </Columns.Column>
+                                  <Columns.Column></Columns.Column>
+                                </Columns>
+                              )}
+                            </Box>
+                          )
+                        } else { return null }
                       })()
                     }
                   </div>

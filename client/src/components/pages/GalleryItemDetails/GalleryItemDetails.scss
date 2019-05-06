@@ -109,6 +109,49 @@
   }
 }
 
+.admin-box {
+  margin: 0 2.5rem 2.5rem 2.5rem;
+
+  h1 {
+    @include noselect();
+    font-family: "Poppins";
+    font-weight: bold;
+    text-align: center;
+    font-size: 3rem;
+  }
+
+  h2 {
+    @include noselect();
+    font-family: "Poppins";
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.admin-textarea {
+  min-height: 4rem;
+}
+
+.admin-loading {
+  h2 {
+    @include noselect();
+    text-align: center;
+    font-family: "Poppins";
+    font-weight: bold;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: $info;
+  }
+}
+
+.admin-error, .admin-successful {
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
+}
+
 @media screen and (max-width: $tablet) {
   .details-image-column,
   .details-block,
