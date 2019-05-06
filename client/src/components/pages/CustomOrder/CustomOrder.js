@@ -129,7 +129,6 @@ class CustomOrder extends Component {
           .catch(e => {
             console.log("Reference image download url error: " + e)
           })
-        //this.saveNewItemToDb(db, imagePath, null)
 
         // TODO: Submit data as email to Teresa
         // ...
@@ -139,6 +138,9 @@ class CustomOrder extends Component {
 
   prepareEmail(refImageUrl) {
     console.log("Uploaded image " + refImageUrl  + ", now for email!")
+
+    // DEBUG success
+    this.setState({ loading: false, successful: true })
   }
 
   render () {
@@ -150,6 +152,18 @@ class CustomOrder extends Component {
             <div className="baa-container">
               <div className="baa-content">
                 <BAANavbar/>
+
+                { this.state.loading &&
+                  <div className="details-image-loading">
+                    <BarLoader
+                      widthUnit={"%"}
+                      width={100}
+                      heightUnit={"rem"}
+                      height={0.3}
+                      color={"#6444ba"}
+                      />
+                  </div>
+                }
 
                 <div className="heading">
                   <h1>Custom Order</h1>
@@ -195,14 +209,8 @@ class CustomOrder extends Component {
                   (() => {
                     if (this.state.loading) {
                       return (
-                        <div className="details-image-loading">
-                          <BarLoader
-                            widthUnit={"%"}
-                            width={100}
-                            heightUnit={"rem"}
-                            height={0.3}
-                            color={"#6444ba"}
-                            />
+                        <div className="co-loading-block">
+                          <h1>please wait while we send your request...</h1>
                         </div>
                       )
                     } else {
