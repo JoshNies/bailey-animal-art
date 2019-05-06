@@ -129,7 +129,7 @@ class GalleryItemDetails extends Component {
 
     this.setState({ admin })
 
-    // Upload image
+    // Upload main image
     if (admin.loading) {
       const storage = Fire.storage()
       let file = admin.editedImage
@@ -140,7 +140,8 @@ class GalleryItemDetails extends Component {
         (snapshot) => {},
 
         (e) => {
-          this.setState({ error: e })
+          console.log("Main image upload error: " + e)
+          this.setState({ error: "Something went wrong, please try again later." })
         },
 
         () => {
@@ -165,7 +166,7 @@ class GalleryItemDetails extends Component {
 
     this.setState({ admin })
 
-    // Upload image
+    // Upload reference image
     if (admin.loading) {
       const storage = Fire.storage()
       let file = admin.editedRefImage
@@ -176,7 +177,8 @@ class GalleryItemDetails extends Component {
         (snapshot) => {},
 
         (e) => {
-          this.setState({ error: e })
+          console.log("Reference image upload error: " + e)
+          this.setState({ error: "Something went wrong, please try again later." })
         },
 
         () => {

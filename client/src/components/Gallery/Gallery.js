@@ -302,7 +302,8 @@ class Gallery extends Component {
       (snapshot) => {},
 
       (e) => {
-        this.setState({ error: e })
+        console.log("Main image upload error: " + e)
+        this.setState({ error: "Something went wrong, please try again later." })
       },
 
       () => {
@@ -321,7 +322,8 @@ class Gallery extends Component {
           (snapshot) => {},
 
           (e) => {
-            this.setState({ error: e })
+            console.log("Reference image upload error: " + e)
+            this.setState({ error: "Something went wrong, please try again later." })
           },
 
           () => {
