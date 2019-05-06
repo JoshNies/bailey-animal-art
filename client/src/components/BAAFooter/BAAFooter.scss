@@ -8,8 +8,23 @@
   padding: 1.7rem 1.2rem 1.2rem 2.5rem;
   font-family: "Poppins";
   font-weight: bold;
+  display: inline;
+
+  * {
+    display: inline;
+  }
+
+  img {
+    @include noselect();
+    pointer-events: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    vertical-align: middle;
+  }
 
   p {
-    margin-bottom: 0.5rem;
+    @include noselect();
+    margin-left: 1rem;
   }
 }
