@@ -58,11 +58,14 @@ class Checkout extends Component {
               }
             </Columns.Column>
             <Columns.Column size="one-third">
-              <StripeProvider apiKey="pk_test_ua5aCVZGse7OP76qKt6bRKTq007WyAnzpJ">
-                <Elements>
-                  <CheckoutForm/>
-                </Elements>
-              </StripeProvider>
+              { this.state.item !== null &&
+                this.state.item !== undefined &&
+                <StripeProvider apiKey="pk_test_ua5aCVZGse7OP76qKt6bRKTq007WyAnzpJ">
+                  <Elements>
+                    <CheckoutForm price={this.state.item.price}/>
+                  </Elements>
+                </StripeProvider>
+              }
             </Columns.Column>
             <Columns.Column></Columns.Column>
           </Columns>

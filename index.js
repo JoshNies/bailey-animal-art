@@ -2,11 +2,15 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const nodemailer = require('nodemailer');
+const stripe = require('stripe')(process.env.STRIPE_SK_TEST);
 
 const app = express();
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
+
+// Body parser middleware to parse Stripe payload
+app.use(require('body-parser').text())
 
 // Send custom order email
 app.post('/api/custom-order/send', (req, res) => {
@@ -40,6 +44,22 @@ app.post('/api/custom-order/send', (req, res) => {
       console.log("Email error: ", e)
       res.json({ success: false });
     })
+});
+
+app.post('/api/pay', async (req, res, next) => {
+  try {
+    let { status } = await stripe.charges.create({
+      amount: req.query.amount * 100,
+      currency: 'usd',
+      description: 'Art purchase from Bailey Animal Art.',
+      source: req.query.tokenId
+    })
+
+    res.json({ status });
+  } catch (e) {
+    console.log('Pay error: ', e);
+    res.status(500);
+  }
 });
 
 // Handles any requests that don't match the ones above

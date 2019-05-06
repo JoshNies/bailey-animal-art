@@ -88,12 +88,38 @@ class CheckoutForm extends Component {
       return
     }
 
+    let name = this.state.name
+    let amount = Number(this.props.price)
+    if (isNaN(amount)) {
+      this.setState({ error: "There was an issue with this item, please try again later." })
+      return
+    }
+
     this.setState({ error: null })
 
     // Stripe payment
     try {
-      let token = await this.props.stripe.createToken({ name: this.state.name })
-      console.log("Stripe Token: " + token)
+      let { token } = await this.props.stripe.createToken({ name: this.state.name })
+      await request.post('/api/pay')
+        .set('Accept', 'application/json')
+        .set('Content-Type', 'application/json')
+        .query({ tokenId: token.id, amount: amount })
+        .send({
+          "message": "The message"
+        })
+        .end((err, res) => {
+          if (err) {
+            console.log('Pay Request Error: ', err)
+            this.setState({
+              error: "Something went wrong, please try again later."
+            })
+          } else {
+            // Payment successful
+            // TODO: redirect, thank you message, etc goes here (like in stripe docs)
+            // ...
+            console.log("Pay Request Successful!")
+          }
+        })
     } catch (e) {
       console.log("Payment error: " + e)
       this.setState({
