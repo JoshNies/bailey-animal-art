@@ -15,6 +15,7 @@ import Dropdown from 'react-bulma-components/lib/components/dropdown'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUpload } from '@fortawesome/free-solid-svg-icons'
 import { BarLoader } from 'react-spinners'
+import request from 'superagent'
 import { Consumer } from '../../MyContext'
 import BAANavbar from '../../BAANavbar'
 import BAAFooter from '../../BAAFooter'
@@ -35,6 +36,7 @@ class CustomOrder extends Component {
       desc: "",
       width: "",
       height: "",
+      thickness: "",
       refImage: null
     }
   }
@@ -67,6 +69,10 @@ class CustomOrder extends Component {
     this.setState({ height: evt.target.value })
   }
 
+  onChangeThickness = evt => {
+    this.setState({ thickness: evt.target.value })
+  }
+
   validateForm = () => {
     if (this.state.email === null ||
       this.state.email === undefined ||
@@ -89,6 +95,10 @@ class CustomOrder extends Component {
       this.state.height === undefined ||
       this.state.height.trim() === '' ||
       isNaN(Number(this.state.height)) ||
+      this.state.thickness === null ||
+      this.state.thickness === undefined ||
+      this.state.thickness.trim() === '' ||
+      isNaN(Number(this.state.thickness)) ||
       this.state.refImage === null ||
       this.state.refImage === undefined
     ) {
@@ -124,23 +134,49 @@ class CustomOrder extends Component {
         // Main image upload successful
         imageRef.getDownloadURL()
           .then(url => {
-            this.prepareEmail(url)
+            this.sendEmail(url)
           })
           .catch(e => {
             console.log("Reference image download url error: " + e)
+            this.setState({ error: "Something went wrong, please try again later." })
           })
-
-        // TODO: Submit data as email to Teresa
-        // ...
       }
     )
   }
 
-  prepareEmail(refImageUrl) {
-    console.log("Uploaded image " + refImageUrl  + ", now for email!")
-
-    // DEBUG success
-    this.setState({ loading: false, successful: true })
+  sendEmail(refImageUrl) {
+    // Send email
+    request
+      .post('/api/custom-order/send')
+      .set('Accept', 'application/json')
+      .query({
+        text: 'New custom order request from ' + this.state.email + '.  ' +
+          'Description: ' + this.state.desc + ';  Dimensions: ' +
+          this.state.width + ' x ' + this.state.height + ' in, thickness of ' +
+          this.state.thickness + ' in.  Type: ' + this.state.type +
+          ';  Number of pets: ' + this.state.numPets + ';  Reference image link: ' +
+          refImageUrl
+      })
+      .query({
+        html: '<h3>New custom order request from ' + this.state.email + '.</h3>' +
+        '<hr /><p>Description: ' + this.state.desc + '</p><hr /><p>Dimensions: ' +
+        this.state.width + ' x ' + this.state.height + ' in, thickness of ' +
+        this.state.thickness + ' in</p><hr /><p>Type: ' + this.state.type +
+        '</p><hr /><p>Number of pets: ' + this.state.numPets + '</p><hr /><p>' +
+        'Reference image link: ' + refImageUrl
+      })
+      .send({
+        "message": "The message"
+      })
+      .end((err, res) => {
+        if (err) {
+          console.log('Error: ', err)
+          this.setState({ error: "Something went wrong, please try again later." })
+        } else {
+          // Email send successfully
+          this.setState({ loading: false, successful: true })
+        }
+      })
   }
 
   render () {
@@ -287,6 +323,15 @@ class CustomOrder extends Component {
                                   placeholder="height (in)"
                                   value={this.state.height != null ? this.state.height : ""}
                                   onChange={this.onChangeHeight}
+                                  />
+                              </Control>
+                              <Control>
+                                <Label>Thickness (in)</Label>
+                                <Input
+                                  type="number"
+                                  placeholder="thickness (in)"
+                                  value={this.state.thickness != null ? this.state.thickness : ""}
+                                  onChange={this.onChangeThickness}
                                   />
                               </Control>
                             </Field>

@@ -20,7 +20,8 @@
     "react-masonry-css": "^1.0.12",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
-    "react-spinners": "^0.5.4"
+    "react-spinners": "^0.5.4",
+    "superagent": "^5.0.5"
   },
   "scripts": {
     "start": "react-scripts start",

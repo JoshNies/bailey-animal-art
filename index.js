@@ -9,7 +9,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 // Send custom order email
-app.get('/api/custom-order/send', (req, res) => {
+app.post('/api/custom-order/send', (req, res) => {
   console.log("Sending email...");
 
   // Create nodemailer transporter
@@ -26,16 +26,19 @@ app.get('/api/custom-order/send', (req, res) => {
     from: '"Bailey Animal Art" <baileyanimalartbaa@gmail.com>',
     to: 'whatsthatfunction@gmail.com',
     subject: 'Bailey Animal Art - Custom Order',
-    text: 'Test!'
+    text: req.query.text,
+    html: req.query.html
   };
 
   // Send email
   transporter.sendMail(mailOptions)
     .then(res => {
       console.log("Email sent! Response: ", res)
+      res.json({ success: true });
     })
     .catch(e => {
       console.log("Email error: ", e)
+      res.json({ success: false });
     })
 });
 
