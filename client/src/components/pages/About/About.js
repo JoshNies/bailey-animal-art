@@ -25,6 +25,7 @@ class About extends Component {
               <a
                 href="https://www.facebook.com/TeresaBaileyAnimalArtist/"
                 target="_blank"
+                rel="noopener noreferrer"
                 >
                 <Img
                   src={FacebookIcon}

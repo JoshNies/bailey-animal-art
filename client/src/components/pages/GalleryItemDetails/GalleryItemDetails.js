@@ -278,6 +278,14 @@ class GalleryItemDetails extends Component {
       })
   }
 
+  onDeleteClicked = () => {
+    var firestore = Fire.firestore()
+    firestore.collection('gallery').doc(this.state.itemId).delete()
+      .then(() => {
+        this.props.history.push('/')
+      })
+  }
+
   render () {
     return (
       <Consumer>
@@ -659,6 +667,13 @@ class GalleryItemDetails extends Component {
                                         onClick={this.onUpdateClicked}
                                         >
                                         update
+                                      </Button>
+                                      <Button
+                                        color="danger"
+                                        className="admin-btn-2 is-large"
+                                        onClick={this.onDeleteClicked}
+                                        >
+                                        delete
                                       </Button>
                                     </Columns.Column>
                                     <Columns.Column></Columns.Column>

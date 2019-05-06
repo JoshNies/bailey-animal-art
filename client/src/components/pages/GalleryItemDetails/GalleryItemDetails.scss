@@ -168,6 +168,25 @@
   min-height: 4rem;
 }
 
+.admin-btn {
+  @include transition($baa-navbar-item-transition-duration);
+  border-radius: 1rem;
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: $size-5;
+  width: 100%;
+}
+
+.admin-btn-2 {
+  @include transition($baa-navbar-item-transition-duration);
+  border-radius: 1rem;
+  font-family: "Poppins";
+  font-weight: bold;
+  font-size: $size-5;
+  width: 100%;
+  margin-top: 1rem;
+}
+
 .admin-loading {
   h2 {
     @include noselect();
