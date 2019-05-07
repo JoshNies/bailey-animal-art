@@ -26,7 +26,7 @@ app.post('/api/sendemail', (req, res) => {
   // Create mail options
   let mailOptions = {
     from: '"Bailey Animal Art" <baileyanimalartbaa@gmail.com>',
-    to: 'whatsthatfunction@gmail.com',
+    to: 'spotsafire@gmail.com',
     subject: req.query.subject,
     text: req.query.text,
     html: req.query.html
