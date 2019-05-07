@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const nodemailer = require('nodemailer');
-const stripe = require('stripe')(process.env.STRIPE_SK_TEST);
+const stripe = require('stripe')(process.env.STRIPE_SK);
 
 const app = express();
 
