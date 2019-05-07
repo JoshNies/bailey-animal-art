@@ -4,7 +4,7 @@ import 'firebase/firestore'
 import 'firebase/storage'
 
 const config = {
-  apiKey: "AIzaSyAewbVZhTZK3P1te40a8BailLIOAhGr0jc",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "bailey-animal-art-baa.firebaseapp.com",
   databaseURL: "https://bailey-animal-art-baa.firebaseio.com",
   projectId: "bailey-animal-art-baa",
