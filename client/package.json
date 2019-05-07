@@ -15,6 +15,7 @@
     "react-bulma-components": "^2.3.0",
     "react-compare-image": "^0.8.1",
     "react-dom": "^16.8.6",
+    "react-https-redirect": "^1.1.0",
     "react-image": "^2.1.1",
     "react-infinite-scroll-component": "^4.5.2",
     "react-masonry-css": "^1.0.12",

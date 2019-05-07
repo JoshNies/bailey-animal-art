@@ -1,0 +1,14 @@
+<ifModule mod_rewrite.c>
+
+  #Enable rewriting
+  RewriteEngine On
+
+  ##Force SSL
+
+  #Heroku way
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+
+  #If neither above conditions are met, redirect to https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+</ifModule>
