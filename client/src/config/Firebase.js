@@ -3,6 +3,7 @@ import 'firebase/auth'
 import 'firebase/firestore'
 import 'firebase/storage'
 
+// ENV VARS PROCESSED AT BUILD TIME (NPM BUILD AFTER SETTING THEM)
 const config = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "bailey-animal-art-baa.firebaseapp.com",
